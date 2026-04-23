@@ -344,8 +344,6 @@
           <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
         </div>
 
-
-
         <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
           <li>
             <a href="#" class="footer__social-link d-block ps-0">
@@ -472,14 +470,26 @@
             </div>
           </div>
 
-          <div class="header-tools__item hover-container">
-            <a href="login.html" class="header-tools__item">
-              <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_user" />
-              </svg>
-            </a>
-          </div>
+          @guest
+            <div class="header-tools__item hover-container">
+              <a href="{{ route('login') }}" class="header-tools__item">
+                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_user" />
+                </svg>
+              </a>
+            </div>
+          @else
+            <div class="header-tools__item hover-container">
+              <a href="{{ Auth::user()->type == 'admin' ? route('admin.home') : route('user.home') }}"
+                class="header-tools__item">
+                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_user" />
+                </svg>
+              </a>
+            </div>
+          @endguest
 
           <a href="wishlist.html" class="header-tools__item">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
