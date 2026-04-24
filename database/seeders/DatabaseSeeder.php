@@ -20,13 +20,15 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test Admin',
             'email' => 'admin@gmail.com',
-            'type' => 'admin'
+            'type' => 'admin',
+            'telephone' => '085294532451'
         ]);
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'user@gmail.com',
-            'type' => 'user'
+            'type' => 'user',
+            'telephone' => '081313043986'
         ]);
     }
 }
