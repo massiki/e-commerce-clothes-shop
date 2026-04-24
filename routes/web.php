@@ -13,6 +13,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('user.home');
+    Route::get('/account', [UserController::class, 'account'])->name('user.home');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function () {
