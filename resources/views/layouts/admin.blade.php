@@ -32,8 +32,8 @@
 
         <div class="section-menu-left">
           <div class="box-logo">
-            <a href="{{ asset('index.html') }}" id="site-logo-inner">
-              <img class="" id="logo_header" alt="" src="{{ asset('images/logo/logo.png') }}"
+            <a href="#" id="site-logo-inner">
+              <img class="" id="logo_header_" alt="logo" src="{{ asset('images/logo/logo.png') }}"
                 data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
             </a>
             <div class="button-show-hide">
@@ -45,7 +45,7 @@
               <div class="center-heading">Main Home</div>
               <ul class="menu-list">
                 <li class="menu-item">
-                  <a href="{{ asset('index.html') }}" class="">
+                  <a href="{{ route('admin.home') }}" class="{{ request()->routeIs('admin.home') ? 'active' : '' }}">
                     <div class="icon"><i class="icon-grid"></i></div>
                     <div class="text">Dashboard</div>
                   </a>
@@ -72,24 +72,28 @@
                     </li>
                   </ul>
                 </li>
-                <li class="menu-item has-children">
-                  <a href="javascript:void(0);" class="menu-item-button">
+                @php
+                  $brandsActive = request()->routeIs('admin.brands');
+                @endphp
+                <li class="menu-item has-children{{ $brandsActive ? ' open' : '' }}">
+                  <a href="javascript:void(0);" class="menu-item-button{{ $brandsActive ? ' active' : '' }}">
                     <div class="icon"><i class="icon-layers"></i></div>
                     <div class="text">Brand</div>
                   </a>
-                  <ul class="sub-menu">
+                  <ul class="sub-menu" style="{{ $brandsActive ? 'display: block;' : '' }}">
                     <li class="sub-menu-item">
                       <a href="{{ asset('add-brand.html') }}" class="">
                         <div class="text">New Brand</div>
                       </a>
                     </li>
                     <li class="sub-menu-item">
-                      <a href="{{ asset('brands.html') }}" class="">
+                      <a href="{{ route('admin.brands') }}" class="{{ $brandsActive ? 'active' : '' }}">
                         <div class="text">Brands</div>
                       </a>
                     </li>
                   </ul>
                 </li>
+
                 <li class="menu-item has-children">
                   <a href="javascript:void(0);" class="menu-item-button">
                     <div class="icon"><i class="icon-layers"></i></div>
