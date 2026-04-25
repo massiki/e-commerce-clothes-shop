@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Middleware\AuthAdmin;
@@ -18,5 +19,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('home');
-    Route::get('/brands', [HomeController::class, 'brands'])->name('brands');
+
+    Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('brands.create');
+    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
 });
