@@ -36,13 +36,17 @@
             <fieldset class="name">
               <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
               <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
-                value="" aria-required="true" required="">
+                value="{{ old('name') }}" aria-required="true" required="">
             </fieldset>
+            @error('name')
+              <div class="text-danger text-xs mt-1">{{ $message }}</div>
+            @enderror
             <fieldset>
               <div class="body-title">Upload images <span class="tf-color-1">*</span>
               </div>
               <div class="upload-image flex-grow">
-                <div class="item" id="imgpreview" style="display:none">
+                <div class="item" id="imgpreview"
+                  style="display:{{ old('image') || $errors->has('image') ? 'block' : 'none' }}">
                   <img id="preview-image" src="" class="effect8" alt="">
                 </div>
 
@@ -58,12 +62,16 @@
                 </div>
               </div>
             </fieldset>
+            @error('image')
+              <div class="text-danger text-xs mt-1">{{ $message }}</div>
+            @enderror
 
             <div class="bot">
               <div></div>
               <button class="tf-button w208" type="submit">Save</button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
