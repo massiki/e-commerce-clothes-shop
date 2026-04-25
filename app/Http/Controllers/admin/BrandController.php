@@ -26,7 +26,6 @@ class BrandController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,jpg,png,webp|max:1028'
-
         ]);
 
         $baseSlug = Str::slug($validated['name']);
@@ -49,6 +48,45 @@ class BrandController extends Controller
         ]);
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand created successfully!');
+    }
+
+    public function edit(Brand $brand)
+    {
+        return view('admin.brand.edit', compact('brand'));
+    }
+
+    public function update(Request $request, Brand $brand)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028'
+        ]);
+
+        $baseSlug = Str::slug($validated['name']);
+        $slug = $baseSlug;
+        $count = 1;
+        while (Brand::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $count;
+            $count++;
+        }
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('brands', 'public');
+            if ($brand->image) {
+                Storage::disk('public')->delete($brand->image);
+            }
+        } else {
+            $imagePath = $brand->image;
+        }
+
+        $brand->update([
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'image' => $imagePath
+        ]);
+
+        return redirect()->route('admin.brands.index')->with('success', 'Brand updated successfully!');
     }
 
     public function destroy(Brand $brand)
