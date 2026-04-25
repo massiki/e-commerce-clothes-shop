@@ -452,7 +452,15 @@
             </div>
           </div>
 
-          @yield('content')
+          <div class="main-content">
+
+            @yield('content')
+
+            <div class="bottom-page">
+              <div class="body-text">Copyright © {{ date('Y') }} SurfsideMedia</div>
+
+            </div>
+          </div>
 
         </div>
       </div>
