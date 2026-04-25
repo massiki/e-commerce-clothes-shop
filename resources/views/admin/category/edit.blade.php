@@ -5,7 +5,7 @@
     <div class="main-content-inner">
       <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>Edit Brand</h3>
+          <h3>Edit Category</h3>
           <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <a href="#">
@@ -17,27 +17,27 @@
             </li>
             <li>
               <a href="#">
-                <div class="text-tiny">Brands</div>
+                <div class="text-tiny">Categories</div>
               </a>
             </li>
             <li>
               <i class="icon-chevron-right"></i>
             </li>
             <li>
-              <div class="text-tiny">Update Brand</div>
+              <div class="text-tiny">Update Categories</div>
             </li>
           </ul>
         </div>
 
         <div class="wg-box">
-          <form class="form-new-product form-style-1" action="{{ route('admin.brands.update', $brand->id) }}"
+          <form class="form-new-product form-style-1" action="{{ route('admin.categories.update', $category->id) }}"
             method="POST" enctype="multipart/form-data">
             @method('patch')
             @csrf
             <fieldset class="name">
-              <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
-              <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
-                value="{{ old('name', $brand->name) }}" aria-required="true" required="">
+              <div class="body-title">Category Name <span class="tf-color-1">*</span></div>
+              <input class="flex-grow" type="text" placeholder="Category name" name="name" tabindex="0"
+                value="{{ old('name', $category->name) }}" aria-required="true" required="">
             </fieldset>
             @error('name')
               <div class="text-danger text-xs mt-1">{{ $message }}</div>
@@ -47,9 +47,9 @@
               </div>
               <div class="upload-image flex-grow">
                 <div class="item" id="imgpreview"
-                  style="display:{{ old('image') || $brand->image || $errors->has('image') ? 'block' : 'none' }}">
+                  style="display:{{ old('image') || $category->image || $errors->has('image') ? 'block' : 'none' }}">
                   <img id="preview-image"
-                    src="{{ old('image') ? '' : ($brand->image ? asset('storage/' . $brand->image) : '') }}"
+                    src="{{ old('image') ? '' : ($category->image ? asset('storage/' . $category->image) : '') }}"
                     class="effect8" alt="">
                 </div>
 

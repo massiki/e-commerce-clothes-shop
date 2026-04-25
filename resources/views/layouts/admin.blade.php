@@ -76,7 +76,7 @@
                   $brandsActive = request()->routeIs('admin.brands.index');
                 @endphp
                 <li class="menu-item has-children {{ $brandsActive ? 'open active' : '' }}">
-                  <a href="javascript:void(0);" class="menu-item-button{{ $brandsActive ? ' active' : '' }}">
+                  <a href="javascript:void(0);" class="menu-item-button {{ $brandsActive ? 'active' : '' }}">
                     <div class="icon"><i class="icon-layers"></i></div>
                     <div class="text">Brand</div>
                   </a>
@@ -93,9 +93,11 @@
                     </li>
                   </ul>
                 </li>
-
-                <li class="menu-item has-children">
-                  <a href="javascript:void(0);" class="menu-item-button">
+                @php
+                  $categoriesActive = request()->routeIs('admin.categories.index');
+                @endphp
+                <li class="menu-item has-children {{ $categoriesActive ? 'open active' : '' }}">
+                  <a href="javascript:void(0);" class="menu-item-button {{ $categoriesActive ? 'active' : '' }}">
                     <div class="icon"><i class="icon-layers"></i></div>
                     <div class="text">Category</div>
                   </a>
@@ -106,7 +108,8 @@
                       </a>
                     </li>
                     <li class="sub-menu-item">
-                      <a href="{{ asset('categories.html') }}" class="">
+                      <a href="{{ route('admin.categories.index') }}"
+                        class="{{ $categoriesActive ? 'active' : '' }}">
                         <div class="text">Categories</div>
                       </a>
                     </li>
