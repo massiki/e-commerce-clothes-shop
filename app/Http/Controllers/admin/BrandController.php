@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BrandController extends Controller
@@ -48,5 +49,14 @@ class BrandController extends Controller
         ]);
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand created successfully!');
+    }
+
+    public function destroy(Brand $brand)
+    {
+        if ($brand->image) {
+            Storage::disk('public')->delete($brand->image);
+        }
+        $brand->delete();
+        return redirect()->route('admin.brands.index')->with('success', 'Brand deleted successfully!');
     }
 }

@@ -74,11 +74,16 @@
                               <i class="icon-edit-3"></i>
                             </div>
                           </a>
-                          <form action="#" method="POST">
-                            <div class="item text-danger delete">
+                          <form action="{{ route('admin.brands.destroy', $brand->id) }}" method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this brand?');">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="item text-danger delete"
+                              style="border: none; background: transparent; padding: 0; cursor: pointer;">
                               <i class="icon-trash-2"></i>
-                            </div>
+                            </button>
                           </form>
+
                         </div>
                       </td>
                     </tr>
