@@ -73,9 +73,9 @@
                   </ul>
                 </li>
                 @php
-                  $brandsActive = request()->routeIs('admin.brands');
+                  $brandsActive = request()->routeIs('admin.brands.index');
                 @endphp
-                <li class="menu-item has-children{{ $brandsActive ? ' open' : '' }}">
+                <li class="menu-item has-children {{ $brandsActive ? 'open active' : '' }}">
                   <a href="javascript:void(0);" class="menu-item-button{{ $brandsActive ? ' active' : '' }}">
                     <div class="icon"><i class="icon-layers"></i></div>
                     <div class="text">Brand</div>
@@ -87,7 +87,7 @@
                       </a>
                     </li>
                     <li class="sub-menu-item">
-                      <a href="{{ route('admin.brands') }}" class="{{ $brandsActive ? 'active' : '' }}">
+                      <a href="{{ route('admin.brands.index') }}" class="{{ $brandsActive ? 'active' : '' }}">
                         <div class="text">Brands</div>
                       </a>
                     </li>
@@ -385,9 +385,6 @@
                   </div>
                 </div>
 
-
-
-
                 <div class="popup-wrap user type-header">
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
@@ -564,6 +561,7 @@
       jQuery(window).on("resize", function() {});
     })(jQuery);
   </script>
+  @stack('scripts')
 </body>
 
 </html>
