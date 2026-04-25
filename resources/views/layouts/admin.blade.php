@@ -54,112 +54,32 @@
             </div>
             <div class="center-item">
               <ul class="menu-list">
-                <li class="menu-item has-children">
-                  <a href="javascript:void(0);" class="menu-item-button">
-                    <div class="icon"><i class="icon-shopping-cart"></i></div>
-                    <div class="text">Products</div>
-                  </a>
-                  <ul class="sub-menu">
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('add-product.html') }}" class="">
-                        <div class="text">Add Product</div>
-                      </a>
-                    </li>
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('products.html') }}" class="">
-                        <div class="text">Products</div>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                @php
-                  $brandsActive = request()->routeIs('admin.brands.index');
-                @endphp
-                <li class="menu-item has-children {{ $brandsActive ? 'open active' : '' }}">
-                  <a href="javascript:void(0);" class="menu-item-button {{ $brandsActive ? 'active' : '' }}">
-                    <div class="icon"><i class="icon-layers"></i></div>
-                    <div class="text">Brand</div>
-                  </a>
-                  <ul class="sub-menu" style="{{ $brandsActive ? 'display: block;' : '' }}">
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('add-brand.html') }}" class="">
-                        <div class="text">New Brand</div>
-                      </a>
-                    </li>
-                    <li class="sub-menu-item">
-                      <a href="{{ route('admin.brands.index') }}" class="{{ $brandsActive ? 'active' : '' }}">
-                        <div class="text">Brands</div>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                @php
-                  $categoriesActive = request()->routeIs('admin.categories.index');
-                @endphp
-                <li class="menu-item has-children {{ $categoriesActive ? 'open active' : '' }}">
-                  <a href="javascript:void(0);" class="menu-item-button {{ $categoriesActive ? 'active' : '' }}">
-                    <div class="icon"><i class="icon-layers"></i></div>
-                    <div class="text">Category</div>
-                  </a>
-                  <ul class="sub-menu">
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('add-category.html') }}" class="">
-                        <div class="text">New Category</div>
-                      </a>
-                    </li>
-                    <li class="sub-menu-item">
-                      <a href="{{ route('admin.categories.index') }}"
-                        class="{{ $categoriesActive ? 'active' : '' }}">
-                        <div class="text">Categories</div>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li class="menu-item has-children">
-                  <a href="javascript:void(0);" class="menu-item-button">
-                    <div class="icon"><i class="icon-file-plus"></i></div>
-                    <div class="text">Order</div>
-                  </a>
-                  <ul class="sub-menu">
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('orders.html') }}" class="">
-                        <div class="text">Orders</div>
-                      </a>
-                    </li>
-                    <li class="sub-menu-item">
-                      <a href="{{ asset('order-tracking.html') }}" class="">
-                        <div class="text">Order tracking</div>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ asset('slider.html') }}" class="">
-                    <div class="icon"><i class="icon-image"></i></div>
-                    <div class="text">Slider</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ asset('coupons.html') }}" class="">
-                    <div class="icon"><i class="icon-grid"></i></div>
-                    <div class="text">Coupns</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="{{ asset('users.html') }}" class="">
-                    <div class="icon"><i class="icon-user"></i></div>
-                    <div class="text">User</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="{{ asset('settings.html') }}" class="">
-                    <div class="icon"><i class="icon-settings"></i></div>
-                    <div class="text">Settings</div>
-                  </a>
-                </li>
+                <x-sidebar-menu-admin icon="icon-shopping-cart" title="Products">
+                  <x-sidebar-submenu-admin href="#" title="Add Product" />
+                  <x-sidebar-submenu-admin href="#" title="Products" />
+                </x-sidebar-menu-admin>
+                <x-sidebar-menu-admin icon="icon-layers" title="Brands"
+                  isOpen="{{ request()->routeIs('admin.brands.index') ? 'open active' : '' }}"
+                  isActive="{{ request()->routeIs('admin.brands.index') ? 'active' : '' }}">
+                  <x-sidebar-submenu-admin href="#" title="New Brand" />
+                  <x-sidebar-submenu-admin href="{{ route('admin.brands.index') }}" title="Brands"
+                    isActive="{{ request()->routeIs('admin.brands.index') ? 'active' : '' }}" />
+                </x-sidebar-menu-admin>
+                <x-sidebar-menu-admin icon="icon-layers" title="Category"
+                  isOpen="{{ request()->routeIs('admin.categories.index') ? 'open active' : '' }}"
+                  isActive="{{ request()->routeIs('admin.categories.index') ? 'active' : '' }}">
+                  <x-sidebar-submenu-admin href="#" title="New Category" />
+                  <x-sidebar-submenu-admin href="{{ route('admin.categories.index') }}" title="Categories"
+                    isActive="{{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" />
+                </x-sidebar-menu-admin>
+                <x-sidebar-menu-admin icon="icon-file-plus" title="Order">
+                  <x-sidebar-submenu-admin href="#" title="Orders" />
+                  <x-sidebar-submenu-admin href="#" title="Order tracking" />
+                </x-sidebar-menu-admin>
+                <x-sidebar-link-admin href="#" icon="icon-image" title="Slider" />
+                <x-sidebar-link-admin href="#" icon="icon-grid" title="Coupns" />
+                <x-sidebar-link-admin href="#" icon="icon-user" title="User" />
+                <x-sidebar-link-admin href="#" icon="icon-settings" title="Settings" />
                 <li class="menu-item">
                   <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -170,17 +90,15 @@
                     @csrf
                   </form>
                 </li>
-
               </ul>
             </div>
           </div>
         </div>
         <div class="section-content-right">
-
           <div class="header-dashboard">
             <div class="wrap">
               <div class="header-left">
-                <a href="{{ asset('index-2.html') }}">
+                <a href="#">
                   <img class="" id="logo_header_mobile" alt=""
                     src="{{ asset('images/logo/logo.png') }}" data-light="{{ asset('images/logo/logo.png') }}"
                     data-dark="{{ asset('images/logo/logo.png') }}" data-width="154px" data-height="52px"
@@ -189,7 +107,6 @@
                 <div class="button-show-hide">
                   <i class="icon-menu-left"></i>
                 </div>
-
 
                 <form class="form-search flex-grow">
                   <fieldset class="name">
@@ -437,7 +354,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="{{ asset('login.html') }}" class="user-item">
+                        <a href="#" class="user-item">
                           <div class="icon">
                             <i class="icon-log-out"></i>
                           </div>
@@ -447,21 +364,15 @@
                     </ul>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
-
           <div class="main-content">
-
             @yield('content')
-
             <div class="bottom-page">
               <div class="body-text">Copyright © {{ date('Y') }} SurfsideMedia</div>
-
             </div>
           </div>
-
         </div>
       </div>
     </div>
