@@ -52,6 +52,15 @@
                   alt="">
               </div>
 
+              <div class="upload-image flex-grow">
+                <div class="item" id="imgpreview"
+                  style="display:{{ old('image') || $brand->image || $errors->has('image') ? 'block' : 'none' }}">
+                  <img id="preview-image"
+                    src="{{ old('image') ? '' : ($brand->image ? asset('storage/' . $brand->image) : '') }}"
+                    class="effect8" alt="">
+                </div>
+
+
               <div id="upload-file" class="item up-load">
                 <label class="uploadfile" for="myFile">
                   <span class="icon">
