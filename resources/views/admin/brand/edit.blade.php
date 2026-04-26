@@ -36,7 +36,7 @@
           <fieldset class="name">
             <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
             <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
-              value="{{ old('name', $brand->name) }}" aria-required="true" required="">
+              value="{{ old('name', $brand->name) }}">
           </fieldset>
           @error('name')
             <div class="text-danger text-xs mt-1">{{ $message }}</div>
@@ -59,19 +59,17 @@
                     src="{{ old('image') ? '' : ($brand->image ? asset('storage/' . $brand->image) : '') }}"
                     class="effect8" alt="">
                 </div>
-
-
-              <div id="upload-file" class="item up-load">
-                <label class="uploadfile" for="myFile">
-                  <span class="icon">
-                    <i class="icon-upload-cloud"></i>
-                  </span>
-                  <span class="body-text">Drop your images here or select <span class="tf-color">click to
-                      browse</span></span>
-                  <input type="file" id="myFile" name="image" accept="image/*">
-                </label>
+                <div id="upload-file" class="item up-load">
+                  <label class="uploadfile" for="myFile">
+                    <span class="icon">
+                      <i class="icon-upload-cloud"></i>
+                    </span>
+                    <span class="body-text">Drop your images here or select <span class="tf-color">click to
+                        browse</span></span>
+                    <input type="file" id="myFile" name="image" accept="image/*">
+                  </label>
+                </div>
               </div>
-            </div>
           </fieldset>
           @error('image')
             <div class="text-danger text-xs mt-1">{{ $message }}</div>

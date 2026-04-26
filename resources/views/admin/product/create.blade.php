@@ -37,14 +37,13 @@
             <div class="body-title mb-10">Product name <span class="tf-color-1">*</span>
             </div>
             <input class="mb-10" type="text" placeholder="Enter product name" name="name" tabindex="0"
-              value="{{ old('name') }}" aria-required="true" required="">
+              value="{{ old('name') }}">
             <div class="text-tiny">Do not exceed 100 characters when entering the
               product name.</div>
+            @error('name')
+              <div class="text-danger text-xs mt-1">{{ $message }}</div>
+            @enderror
           </fieldset>
-          @error('name')
-            <div class="text-danger text-xs mt-1">{{ $message }}</div>
-          @enderror
-
           <div class="gap22 cols">
             <fieldset class="category">
               <div class="body-title mb-10">Category <span class="tf-color-1">*</span>
@@ -59,11 +58,10 @@
                   @endforeach
                 </select>
               </div>
+              @error('category_id')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('category_id')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
-
             <fieldset class="brand">
               <div class="body-title mb-10">Brand <span class="tf-color-1">*</span>
               </div>
@@ -77,35 +75,30 @@
                   @endforeach
                 </select>
               </div>
+              @error('brand_id')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('brand_id')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
           </div>
-
           <fieldset class="shortdescription">
             <div class="body-title mb-10">Short Description <span class="tf-color-1">*</span></div>
-            <textarea class="mb-10 ht-150" name="short_description" placeholder="Short Description" tabindex="0"
-              aria-required="true" required="">{{ old('short_description') }}</textarea>
+            <textarea class="mb-10 ht-150" name="short_description" placeholder="Short Description" tabindex="0">{{ old('short_description') }}</textarea>
             <div class="text-tiny">Do not exceed 100 characters when entering the
               product name.</div>
+            @error('short_description')
+              <div class="text-danger text-xs mt-1">{{ $message }}</div>
+            @enderror
           </fieldset>
-          @error('short_description')
-            <div class="text-danger text-xs mt-1">{{ $message }}</div>
-          @enderror
-
           <fieldset class="description">
             <div class="body-title mb-10">Description <span class="tf-color-1">*</span>
             </div>
-            <textarea class="mb-10" name="description" placeholder="Description" tabindex="0" aria-required="true"
-              required="">{{ old('description') }}</textarea>
-            <div class="text-tiny">Do not exceed 100 characters when entering the
-              product name.</div>
+            <textarea class="mb-10" name="description" placeholder="Description" tabindex="0">{{ old('description') }}</textarea>
+            @error('description')
+              <div class="text-danger text-xs mt-1">{{ $message }}</div>
+            @enderror
           </fieldset>
-          @error('description')
-            <div class="text-danger text-xs mt-1">{{ $message }}</div>
-          @enderror
         </div>
+
         <div class="wg-box">
           <fieldset>
             <div class="body-title">Upload images <span class="tf-color-1">*</span>
@@ -157,19 +150,19 @@
             <fieldset class="name">
               <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
               <input class="mb-10" type="text" placeholder="Enter regular price" name="regular_price"
-                tabindex="0" value="{{ old('regular_price') }}" aria-required="true" required="">
+                tabindex="0" value="{{ old('regular_price') }}">
+              @error('regular_price')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('regular_price')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
             <fieldset class="name">
               <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
               <input class="mb-10" type="text" placeholder="Enter sale price" name="sale_price" tabindex="0"
                 value="{{ old('sale_price') }}">
+              @error('sale_price')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('sale_price')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
           </div>
 
 
@@ -178,20 +171,20 @@
               <div class="body-title mb-10">SKU <span class="tf-color-1">*</span>
               </div>
               <input class="mb-10" type="text" placeholder="Enter SKU" name="SKU" tabindex="0"
-                value="{{ old('SKU') }}" aria-required="true" required="">
+                value="{{ old('SKU') }}">
+              @error('SKU')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('SKU')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
             <fieldset class="name">
               <div class="body-title mb-10">Quantity <span class="tf-color-1">*</span>
               </div>
               <input class="mb-10" type="text" placeholder="Enter quantity" name="quantity" tabindex="0"
-                value="{{ old('quantity') }}" aria-required="true" required="">
+                value="{{ old('quantity') }}">
+              @error('quantity')
+                <div class="text-danger text-xs mt-1">{{ $message }}</div>
+              @enderror
             </fieldset>
-            @error('quantity')
-              <div class="text-danger text-xs mt-1">{{ $message }}</div>
-            @enderror
           </div>
 
           <div class="cols gap22">
