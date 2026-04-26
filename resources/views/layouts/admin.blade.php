@@ -54,9 +54,12 @@
             </div>
             <div class="center-item">
               <ul class="menu-list">
-                <x-sidebar-menu-admin icon="icon-shopping-cart" title="Products">
+                <x-sidebar-menu-admin icon="icon-shopping-cart" title="Products"
+                  isOpen="{{ request()->routeIs('admin.products.index') ? 'open active' : '' }}"
+                  isActive="{{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                   <x-sidebar-submenu-admin href="#" title="Add Product" />
-                  <x-sidebar-submenu-admin href="#" title="Products" />
+                  <x-sidebar-submenu-admin href="{{ route('admin.products.index') }}" title="Products"
+                    isActive="{{ route('admin.products.index') ? 'active' : '' }}" />
                 </x-sidebar-menu-admin>
                 <x-sidebar-menu-admin icon="icon-layers" title="Brands"
                   isOpen="{{ request()->routeIs('admin.brands.index') ? 'open active' : '' }}"
