@@ -34,7 +34,7 @@
           <fieldset class="name">
             <div class="body-title">Category Name <span class="tf-color-1">*</span></div>
             <input class="flex-grow" type="text" placeholder="Category name" name="name" tabindex="0"
-              value="{{ old('name') }}" aria-required="true" required="">
+              value="{{ old('name') }}">
           </fieldset>
           @error('name')
             <div class="text-danger text-xs mt-1">{{ $message }}</div>
