@@ -56,7 +56,7 @@ class ProductController extends Controller
         $baseSlug = Str::slug($validated['name']);
         $slug = $baseSlug;
         $count = 1;
-        while (Product::where('slug', $slug)->exists()) { // Should be Product, not Category
+        while (Product::where('slug', $slug)->exists()) {
             $slug = $baseSlug . '-' . $count;
             $count++;
         }
@@ -117,9 +117,78 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'short_description' => 'required|string|max:100',
+            'description' => 'required|string',
+            'regular_price' => 'required|numeric',
+            'sale_price' => 'nullable|numeric',
+            'SKU' => 'required|string|max:255',
+            'stock_status' => 'required|in:instock,outofstock',
+            'featured' => 'required|boolean',
+            'quantity' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028',
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028',
+            'category_id' => 'nullable|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
+        ]);
+
+        // slug
+        $baseSlug = Str::slug($validated['name']);
+        $slug = $baseSlug;
+        $count = 1;
+        while (Product::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $count;
+            $count++;
+        }
+
+        // image
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+        } else {
+            $imagePath = $product->image;
+        }
+
+        // images (gallery)
+        $galleryImagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $galleryImage) {
+                $path = $galleryImage->store('product_galleries', 'public');
+                $galleryImagePaths[] = $path;
+            }
+            if ($product->images) {
+                foreach ($product->images as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+        } else {
+            $galleryImagePaths = $product->images;
+        }
+
+        $product->update([
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'short_description' => $validated['short_description'] ?? null,
+            'description' => $validated['description'],
+            'regular_price' => $validated['regular_price'],
+            'sale_price' => $validated['sale_price'] ?? null,
+            'SKU' => $validated['SKU'],
+            'stock_status' => $validated['stock_status'],
+            'featured' => $validated['featured'],
+            'quantity' => $validated['quantity'],
+            'image' => $imagePath ?? null,
+            'images' => $galleryImagePaths ?? null,
+            'category_id' => $validated['category_id'] ?? null,
+            'brand_id' => $validated['brand_id'] ?? null,
+        ]);
+
+        return redirect()->route('admin.products.index')->with('success', 'Products updated successfully!');
     }
 
     /**
@@ -138,6 +207,6 @@ class ProductController extends Controller
         }
 
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Products created successfully!');
+        return redirect()->route('admin.products.index')->with('success', 'Products deleted successfully!');
     }
 }
