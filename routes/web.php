@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Middleware\AuthAdmin;
@@ -23,4 +24,5 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->
 
     Route::resource('brands', BrandController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 });
