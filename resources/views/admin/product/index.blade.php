@@ -36,6 +36,9 @@
           <a class="tf-button style-1 w208" href="{{ route('admin.products.create') }}"><i class="icon-plus"></i>Add
             new</a>
         </div>
+
+        <x-alert-success status="success" />
+
         <div class="table-responsive">
           <table class="table table-striped table-bordered">
             <thead>
