@@ -388,8 +388,9 @@
                       @endphp
                       @foreach ($allImages as $img)
                         <div class="swiper-slide">
-                          <a href="#"><img loading="lazy" src="{{ asset('storage/' . $img) }}" width="330"
-                              height="400" alt="Cropped Faux leather Jacket" class="pc__img">
+                          <a href="{{ route('shop-detail', $product->slug) }}"><img loading="lazy"
+                              src="{{ asset('storage/' . $img) }}" width="330" height="400"
+                              alt="Cropped Faux leather Jacket" class="pc__img">
                           </a>
                         </div>
                       @endforeach
