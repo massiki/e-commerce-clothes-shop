@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -45,8 +46,8 @@ class ProductController extends Controller
             'stock_status' => 'required|in:instock,outofstock',
             'featured' => 'required|boolean',
             'quantity' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028', // updated validation for the images array
+            'image' => 'required|image|mimes:jpeg,jpg,png,webp|max:1028',
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:1028',
             'category_id' => 'nullable|exists:categories,id',
             'brand_id' => 'nullable|exists:brands,id',
         ]);
@@ -124,8 +125,19 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        if ($product->images) {
+            foreach ($product->images as $image) {
+                Storage::disk('public')->delete($image);
+            }
+        }
+
+        $product->delete();
+        return redirect()->route('admin.products.index')->with('success', 'Products created successfully!');
     }
 }
