@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop/{product:slug}', [ShopController::class, 'detail'])->name('shop-detail');
 
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
