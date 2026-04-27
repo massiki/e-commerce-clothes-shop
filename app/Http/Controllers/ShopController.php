@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,16 @@ class ShopController extends Controller
 {
     public function index(Request $request)
     {
+        $brands = Brand::all();
         $query = Product::query();
+
+        if ($request->has('brand') && !empty($request->brand)) {
+            $brand = Brand::where('slug', $request->brand)->first();
+            if ($brand) {
+                $query->where('brand_id', $brand->id);
+            }
+        }
+
         switch ($request->sort) {
             case 'featured':
                 $query->where('featured', true);
@@ -42,7 +52,7 @@ class ShopController extends Controller
 
         $products = $query->paginate(9)->withQueryString();
 
-        return view('shop', compact('products'));
+        return view('shop', compact('products', 'brands'));
     }
 
     public function detail(Product $product)

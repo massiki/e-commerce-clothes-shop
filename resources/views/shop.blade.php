@@ -151,53 +151,29 @@
             </h5>
             <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
               aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
-              <div class="search-field multi-select accordion-body px-0 pb-0">
-                <select class="d-none" multiple name="total-numbers-list">
-                  <option value="1">Adidas</option>
-                  <option value="2">Balmain</option>
-                  <option value="3">Balenciaga</option>
-                  <option value="4">Burberry</option>
-                  <option value="5">Kenzo</option>
-                  <option value="5">Givenchy</option>
-                  <option value="5">Zara</option>
-                </select>
-                <div class="search-field__input-wrapper mb-3">
-                  <input type="text" name="search_text"
-                    class="search-field__input form-control form-control-sm border-light border-2"
-                    placeholder="Search" />
-                </div>
-                <ul class="multi-select__list list-unstyled">
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Adidas</span>
-                    <span class="text-secondary">2</span>
+              <ul class="list-unstyled mb-0 px-2 py-2">
+                @foreach ($brands as $brand)
+                  <li
+                    class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-light-subtle last:border-0"
+                    style="gap: 10px;">
+                    <span class="d-flex align-items-center gap-2">
+                      <input type="checkbox" name="brand" value="{{ $brand->slug }}"
+                        class="form-check-input chk-brand" id="brand-{{ $brand->id }}"
+                        onchange="setBrand(this.value)" {{ request('brand') == $brand->slug ? 'checked' : '' }}>
+                      <label for="brand-{{ $brand->id }}" class="mb-0 ms-1 text-dark fw-medium"
+                        style="letter-spacing:.2px;">
+                        {{ $brand->name }}
+                      </label>
+                    </span>
+                    <span class="badge bg-secondary text-white bg-opacity-25 text-dark small px-2 py-1 rounded-pill">
+                      {{ $brand->products->count() }}
+                    </span>
                   </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balmain</span>
-                    <span class="text-secondary">7</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balenciaga</span>
-                    <span class="text-secondary">10</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Burberry</span>
-                    <span class="text-secondary">39</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Kenzo</span>
-                    <span class="text-secondary">95</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Givenchy</span>
-                    <span class="text-secondary">1092</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Zara</span>
-                    <span class="text-secondary">48</span>
-                  </li>
-                </ul>
-              </div>
+                @endforeach
+
+              </ul>
             </div>
+
           </div>
         </div>
 
@@ -219,16 +195,17 @@
             </h5>
             <div id="accordion-filter-price" class="accordion-collapse collapse show border-0"
               aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
-              <input class="price-range-slider" type="text" name="price_range" value="" data-slider-min="10"
-                data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="Rp " />
+              <input class="price-range-slider" type="text" name="price_range" value=""
+                data-slider-min="10000" data-slider-max="500000" data-slider-step="5"
+                data-slider-value="[25000,200000]" data-currency="Rp " />
               <div class="price-range__info d-flex align-items-center mt-2">
                 <div class="me-auto">
                   <span class="text-secondary">Min Price: </span>
-                  <span class="price-range__min">Rp 250</span>
+                  <span class="price-range__min">Rp 25000</span>
                 </div>
                 <div>
                   <span class="text-secondary">Max Price: </span>
-                  <span class="price-range__max">Rp 450</span>
+                  <span class="price-range__max">Rp 200000</span>
                 </div>
               </div>
             </div>
@@ -334,21 +311,20 @@
           </div>
 
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-            <form action="{{ route('shop') }}">
-              <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
-                aria-label="Sort Items" name="sort" onchange="this.form.submit()">
-                <option value="" @selected(request('sort') == '')>Default Sorting</option>
-                <option value="featured" @selected(request('sort') == 'featured')>Featured</option>
-                <option value="best-selling" @selected(request('sort') == 'best-selling')>Best selling</option>
-                <option value="name-asc" @selected(request('sort') == 'name-asc')>Alphabetically, A-Z</option>
-                <option value="name-desc" @selected(request('sort') == 'name-desc')>Alphabetically, Z-A</option>
-                <option value="price-asc" @selected(request('sort') == 'price-asc')>Price, low to high</option>
-                <option value="price-desc" @selected(request('sort') == 'price-desc')>Price, high to low</option>
-                <option value="date-asc" @selected(request('sort') == 'date-asc')>Date, old to new</option>
-                <option value="date-desc" @selected(request('sort') == 'date-desc')>Date, new to old</option>
-
-              </select>
-            </form>
+            {{-- <form action="{{ route('shop') }}"> --}}
+            <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
+              name="sort" onchange="setSort(this.value)">
+              <option value="" @selected(request('sort') == '')>Default Sorting</option>
+              <option value="featured" @selected(request('sort') == 'featured')>Featured</option>
+              <option value="best-selling" @selected(request('sort') == 'best-selling')>Best selling</option>
+              <option value="name-asc" @selected(request('sort') == 'name-asc')>Alphabetically, A-Z</option>
+              <option value="name-desc" @selected(request('sort') == 'name-desc')>Alphabetically, Z-A</option>
+              <option value="price-asc" @selected(request('sort') == 'price-asc')>Price, low to high</option>
+              <option value="price-desc" @selected(request('sort') == 'price-desc')>Price, high to low</option>
+              <option value="date-asc" @selected(request('sort') == 'date-asc')>Date, old to new</option>
+              <option value="date-desc" @selected(request('sort') == 'date-desc')>Date, new to old</option>
+            </select>
+            {{-- </form> --}}
 
             <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
@@ -478,6 +454,24 @@
           </a>
         </nav>
       </div>
+
+      <form action="{{ route('shop') }}" id="filterForm">
+        <input type="hidden" name="brand" id="brandInput" value="{{ request('brand') }}">
+        <input type="hidden" name="sort" id="sortInput" value="{{ request('sort') }}">
+      </form>
     </section>
   </main>
+  @push('scripts')
+    <script>
+      const setSort = (sort) => {
+        document.getElementById('sortInput').value = sort;
+        document.getElementById('filterForm').submit();
+      }
+
+      const setBrand = (brand) => {
+        document.getElementById('brandInput').value = brand;
+        document.getElementById('filterForm').submit();
+      }
+    </script>
+  @endpush
 @endsection
