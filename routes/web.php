@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\user\UserController;
@@ -16,10 +17,15 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ShopController::class, 'detail'])->name('shop-detail');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
     Route::get('/account', [UserController::class, 'account'])->name('home');
+
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    // Route::post('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
+    // Route::post('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {
