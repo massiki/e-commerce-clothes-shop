@@ -43,4 +43,32 @@ class CartController extends Controller
         }
         return redirect()->back();
     }
+
+    public function increase(Request $request)
+    {
+        $user = Auth::user();
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+
+        $cartItem = $cart->items()->where('product_id', $request->productId)->first();
+        if ($cartItem) {
+            $cartItem->increment('quantity');
+        }
+
+        return redirect()->back();
+    }
+
+    public function decrease(Request $request)
+    {
+        $user = Auth::user();
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+
+        $cartItem = $cart->items()->where('product_id', $request->productId)->first();
+        if ($cartItem && $cartItem->quantity > 1) {
+            $cartItem->decrement('quantity');
+        } elseif ($cartItem && $cartItem->quantity == 1) {
+            $cartItem->delete();
+        }
+
+        return redirect()->back();
+    }
 }
