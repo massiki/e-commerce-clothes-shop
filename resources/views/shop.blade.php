@@ -413,9 +413,15 @@
                   </div>
                   <button
                     class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                    data-aside="cartDrawer" title="Add To Cart">
+                    data-aside="cartDrawer" title="Add To Cart"
+                    onclick="event.preventDefault(); document.getElementById('cart-add-{{ $product->id }}').submit();">
                     Add To Cart
                   </button>
+                  <form action="{{ route('user.cart.add') }}" method="POST" id="cart-add-{{ $product->id }}"
+                    style="display: none;">
+                    @csrf
+                    <input type="text" name="productId" value="{{ $product->id }}">
+                  </form>
                 </div>
 
                 <div class="pc__info position-relative">
