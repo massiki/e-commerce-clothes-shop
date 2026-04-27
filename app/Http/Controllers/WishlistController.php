@@ -36,4 +36,11 @@ class WishlistController extends Controller
         $wishlist->delete();
         return redirect()->back();
     }
+
+    public function destroyAll()
+    {
+        $user = Auth::user();
+        Wishlist::where('user_id', $user->id)->delete();
+        return redirect()->back();
+    }
 }

@@ -32,6 +32,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::delete('/cart', [CartController::class, 'destroyAll'])->name('destroy.all');
     Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist');
     Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+    Route::delete('/wishlist', [WishlistController::class, 'destroyAll'])->name('wishlist.destroy.all');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {
