@@ -12,6 +12,7 @@
 
         <div class="pt-4 pt-lg-0"></div>
 
+        {{-- categories --}}
         <div class="accordion" id="categories-list">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-1">
@@ -29,44 +30,32 @@
             <div id="accordion-filter-1" class="accordion-collapse collapse show border-0"
               aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
               <div class="accordion-body px-0 pb-0 pt-3">
-                <ul class="list list-inline mb-0">
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Dresses</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Shorts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Sweatshirts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Swimwear</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jackets</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">T-Shirts & Tops</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jeans</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Trousers</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Men</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jumpers & Cardigans</a>
-                  </li>
+                <ul class="list-unstyled mb-0 px-2 py-2">
+                  @foreach ($categories as $category)
+                    <li
+                      class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-light-subtle last:border-0"
+                      style="gap: 10px;">
+                      <span class="d-flex align-items-center gap-2">
+                        <input type="checkbox" name="category" value="{{ $category->slug }}" class="form-check-input"
+                          id="category-{{ $category->id }}" onchange="setCategory(this.value)"
+                          {{ request('category') == $category->slug ? 'checked' : '' }}>
+                        <label for="category-{{ $category->id }}" class="mb-0 ms-1 text-dark fw-medium"
+                          style="letter-spacing:.2px;">
+                          {{ $category->name }}
+                        </label>
+                      </span>
+                      <span class="badge bg-secondary text-white bg-opacity-25 text-dark small px-2 py-1 rounded-pill">
+                        {{ $category->products->count() }}
+                      </span>
+                    </li>
+                  @endforeach
                 </ul>
               </div>
             </div>
           </div>
         </div>
 
-
+        {{-- colors --}}
         <div class="accordion" id="color-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-1">
@@ -101,7 +90,7 @@
           </div>
         </div>
 
-
+        {{-- sizes --}}
         <div class="accordion" id="size-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-size">
@@ -133,7 +122,7 @@
           </div>
         </div>
 
-
+        {{-- brands --}}
         <div class="accordion" id="brand-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-brand">
@@ -170,15 +159,14 @@
                     </span>
                   </li>
                 @endforeach
-
               </ul>
             </div>
 
           </div>
         </div>
 
-
-        <div class="accordion" id="price-filters">
+        {{-- range price --}}
+        {{-- <div class="accordion" id="price-filters">
           <div class="accordion-item mb-4">
             <h5 class="accordion-header mb-2" id="accordion-heading-price">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
@@ -210,6 +198,10 @@
               </div>
             </div>
           </div>
+        </div> --}}
+
+        <div class="text-center">
+          <a href="{{ route('shop') }}" class="btn btn-secondary w-100" style="max-width: 100%;">Reset Filter</a>
         </div>
       </div>
 
@@ -311,7 +303,6 @@
           </div>
 
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-            {{-- <form action="{{ route('shop') }}"> --}}
             <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
               name="sort" onchange="setSort(this.value)">
               <option value="" @selected(request('sort') == '')>Default Sorting</option>
@@ -324,7 +315,6 @@
               <option value="date-asc" @selected(request('sort') == 'date-asc')>Date, old to new</option>
               <option value="date-desc" @selected(request('sort') == 'date-desc')>Date, new to old</option>
             </select>
-            {{-- </form> --}}
 
             <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
@@ -458,6 +448,7 @@
       <form action="{{ route('shop') }}" id="filterForm">
         <input type="hidden" name="brand" id="brandInput" value="{{ request('brand') }}">
         <input type="hidden" name="sort" id="sortInput" value="{{ request('sort') }}">
+        <input type="hidden" name="category" id="categoryInput" value="{{ request('category') }}">
       </form>
     </section>
   </main>
@@ -470,6 +461,12 @@
 
       const setBrand = (brand) => {
         document.getElementById('brandInput').value = brand;
+        document.getElementById('filterForm').submit();
+      }
+
+      const setCategory = (category) => {
+        console.log(category)
+        document.getElementById('categoryInput').value = category;
         document.getElementById('filterForm').submit();
       }
     </script>
