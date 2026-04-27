@@ -334,18 +334,21 @@
           </div>
 
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-            <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
-              name="total-number">
-              <option selected>Default Sorting</option>
-              <option value="1">Featured</option>
-              <option value="2">Best selling</option>
-              <option value="3">Alphabetically, A-Z</option>
-              <option value="3">Alphabetically, Z-A</option>
-              <option value="3">Price, low to high</option>
-              <option value="3">Price, high to low</option>
-              <option value="3">Date, old to new</option>
-              <option value="3">Date, new to old</option>
-            </select>
+            <form action="{{ route('shop') }}">
+              <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
+                aria-label="Sort Items" name="sort" onchange="this.form.submit()">
+                <option value="" @selected(request('sort') == '')>Default Sorting</option>
+                <option value="featured" @selected(request('sort') == 'featured')>Featured</option>
+                <option value="best-selling" @selected(request('sort') == 'best-selling')>Best selling</option>
+                <option value="name-asc" @selected(request('sort') == 'name-asc')>Alphabetically, A-Z</option>
+                <option value="name-desc" @selected(request('sort') == 'name-desc')>Alphabetically, Z-A</option>
+                <option value="price-asc" @selected(request('sort') == 'price-asc')>Price, low to high</option>
+                <option value="price-desc" @selected(request('sort') == 'price-desc')>Price, high to low</option>
+                <option value="date-asc" @selected(request('sort') == 'date-asc')>Date, old to new</option>
+                <option value="date-desc" @selected(request('sort') == 'date-desc')>Date, new to old</option>
+
+              </select>
+            </form>
 
             <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
