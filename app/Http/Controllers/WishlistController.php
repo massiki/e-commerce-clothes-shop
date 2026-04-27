@@ -12,11 +12,11 @@ class WishlistController extends Controller
     {
         $user = Auth::user();
         if (Auth::check()) {
-            $wishlist = Wishlist::where('user_id', $user->id)->latest()->get();
+            $wishlists = Wishlist::where('user_id', $user->id)->latest()->get();
         } else {
-            $wishlist = collect();
+            $wishlists = collect();
         }
-        return view('wishlist', compact('wishlist'));
+        return view('wishlist', compact('wishlists'));
     }
 
     public function store(Request $request)
