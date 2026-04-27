@@ -71,13 +71,19 @@
                       <button class="shopping-cart__subtotal btn btn-warning">MOVE TO CART</button>
                     </td>
                     <td>
-                      <a href="#" class="remove-cart">
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                          <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                        </svg>
-                      </a>
+                      <form action="{{ route('user.wishlist.destroy', $wishlist->id) }}" method="POST"
+                        style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-link p-0 remove-cart"
+                          style="border:none; background:transparent;">
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
+                            <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
+                          </svg>
+                        </button>
+                      </form>
                     </td>
                   </tr>
                 @empty
@@ -95,7 +101,11 @@
               </tbody>
             </table>
             <div class="cart-table-footer">
-              <button class="btn btn-light">DELETE ALL WISHLIST</button>
+              <form action="{{ route('user.wishlist.destroy.all') }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-light">DELETE ALL WISHLIST</button>
+              </form>
             </div>
           </div>
         </div>
