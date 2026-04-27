@@ -71,8 +71,16 @@
                       <div class="qty-control position-relative">
                         <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
                           class="qty-control__number text-center">
-                        <div class="qty-control__reduce">-</div>
-                        <div class="qty-control__increase">+</div>
+                        <form action="{{ route('user.cart.decrease') }}" method="post">
+                          @csrf
+                          <input type="hidden" value="{{ $item->product_id }}" name="productId">
+                          <button class="btn qty-control__reduce">-</button>
+                        </form>
+                        <form action="{{ route('user.cart.increase') }}" method="post">
+                          @csrf
+                          <input type="hidden" value="{{ $item->product_id }}" name="productId">
+                          <button class="btn qty-control__increase">+</button>
+                        </form>
                       </div>
                     </td>
                     <td>
