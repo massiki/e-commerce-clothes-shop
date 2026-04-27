@@ -1,3 +1,21 @@
+@php
+  use App\Models\Cart;
+  use App\Models\Wishlist;
+
+  $cartCount = 0;
+  if (auth()->check()) {
+      $cartCount = Cart::where('user_id', auth()->id())
+          ->first()
+          ->items()
+          ->count();
+  }
+
+  $wishlistCount = 0;
+  if (auth()->check()) {
+      $wishlistCount = Wishlist::where('user_id', auth()->id())->count();
+  }
+@endphp
+
 <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
   <div class="row text-center">
     <div class="col-4">
@@ -12,22 +30,25 @@
 
     <div class="col-4">
       <a href="{{ route('shop') }}" class="footer-mobile__link d-flex flex-column align-items-center">
-        <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <use href="#icon_hanger" />
-        </svg>
+        <div class="position-relative">
+          <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_hanger" />
+          </svg>
+          <span class="wishlist-amount d-block position-absolute js-wishlist-count">{{ $cartCount }}</span>
+        </div>
         <span>Shop</span>
       </a>
     </div>
 
     <div class="col-4">
-      <a href="index.html" class="footer-mobile__link d-flex flex-column align-items-center">
+      <a href="{{ route('wishlist') }}" class="footer-mobile__link d-flex flex-column align-items-center">
         <div class="position-relative">
           <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_heart" />
           </svg>
-          <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
+          <span class="wishlist-amount d-block position-absolute js-wishlist-count">{{ $wishlistCount }}</span>
         </div>
         <span>Wishlist</span>
       </a>

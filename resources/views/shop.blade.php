@@ -407,14 +407,23 @@
                         {{ number_format($product->regular_price, 0, ',', '.') }}</span>
                     @endif
                   </div>
-
-                  <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                    title="Add To Wishlist">
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_heart" />
-                    </svg>
-                  </button>
+                  @php
+                    $isThereWistlist = optional($product->wishlists->first())->product_id == $product->id;
+                  @endphp
+                  <form
+                    action="{{ $isThereWistlist ? route('user.wishlist.destroy', $product->wishlists->first()->id) : route('user.wishlist') }}"
+                    method="post">
+                    @if ($isThereWistlist)
+                      @method('DELETE')
+                    @endif
+                    @csrf
+                    <input type="hidden" name="productId" value="{{ $product->id }}">
+                    <button type="submit"
+                      class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                      title="Add To Wishlist">
+                      <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
