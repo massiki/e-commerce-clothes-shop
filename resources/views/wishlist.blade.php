@@ -6,7 +6,6 @@
     <section class="shop-checkout container">
       <h2 class="page-title">Wishlist</h2>
       @auth
-
         <div class="checkout-steps">
           <a href="shop_cart.html" class="checkout-steps__item active">
             <span class="checkout-steps__item-number">01</span>
@@ -44,118 +43,55 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div class="shopping-cart__product-item">
-                      <img loading="lazy" src="../images/cart-item-1.html" width="120" height="120" alt="" />
-                    </div>
-                  </td>
-                  <td>
-                    <div class="shopping-cart__product-item__detail">
-                      <h4>Zessi Dresses</h4>
-                      <ul class="shopping-cart__product-item__options">
-                        <li>Color: -</li>
-                        <li>Size: -</li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="shopping-cart__product-price">$99</span>
-                  </td>
-                  <td>
-                    <span>3</span>
-                  </td>
-                  <td>
-                    <span class="shopping-cart__subtotal">$297</span>
-                  </td>
-                  <td>
-                    <a href="#" class="remove-cart">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                      </svg>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="shopping-cart__product-item">
-                      <img loading="lazy" src="../images/cart-item-2.html" width="120" height="120" alt="" />
-                    </div>
-                  </td>
-                  <td>
-                    <div class="shopping-cart__product-item__detail">
-                      <h4>Kirby T-Shirt</h4>
-                      <ul class="shopping-cart__product-item__options">
-                        <li>Color: Yellow</li>
-                        <li>Size: L</li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="shopping-cart__product-price">$99</span>
-                  </td>
-                  <td>
-                    <div class="qty-control position-relative">
-                      <input type="number" name="quantity" value="3" min="1"
-                        class="qty-control__number text-center">
-                      <div class="qty-control__reduce">-</div>
-                      <div class="qty-control__increase">+</div>
-                    </div><!-- .qty-control -->
-                  </td>
-                  <td>
-                    <span class="shopping-cart__subtotal">$297</span>
-                  </td>
-                  <td>
-                    <a href="#" class="remove-cart">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                      </svg>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="shopping-cart__product-item">
-                      <img loading="lazy" src="../images/cart-item-3.html" width="120" height="120" alt="" />
-                    </div>
-                  </td>
-                  <td>
-                    <div class="shopping-cart__product-item__detail">
-                      <h4>Cobleknit Shawl</h4>
-                      <ul class="shopping-cart__product-item__options">
-                        <li>Color: Yellow</li>
-                        <li>Size: L</li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="shopping-cart__product-price">$99</span>
-                  </td>
-                  <td>
-                    <div class="qty-control position-relative">
-                      <input type="number" name="quantity" value="3" min="1"
-                        class="qty-control__number text-center">
-                      <div class="qty-control__reduce">-</div>
-                      <div class="qty-control__increase">+</div>
-                    </div><!-- .qty-control -->
-                  </td>
-                  <td>
-                    <span class="shopping-cart__subtotal">$297</span>
-                  </td>
-                  <td>
-                    <a href="#" class="remove-cart">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                      </svg>
-                    </a>
-                  </td>
-                </tr>
+                @forelse ($wishlists as $wishlist)
+                  <tr>
+                    <td>
+                      <div class="shopping-cart__product-item">
+                        <img loading="lazy" src="{{ asset('storage/' . $wishlist->product->image) }}" width="120"
+                          height="120" alt="" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shopping-cart__product-item__detail">
+                        <h4>{{ $wishlist->product->name }}</h4>
+                        <ul class="shopping-cart__product-item__options">
+                          <li>Color: -</li>
+                          <li>Size: -</li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td>
+                      <span
+                        class="shopping-cart__product-price">{{ $wishlist->product->sale_price ?? $wishlist->product->regular_price }}</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <button class="shopping-cart__subtotal btn btn-warning">MOVE TO CART</button>
+                    </td>
+                    <td>
+                      <a href="#" class="remove-cart">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
+                          <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
+                        </svg>
+                      </a>
+                    </td>
+                  </tr>
+                @empty
+                  <tr>
+                    <td colspan="6" class="text-center">
+                      <div class="my-5 py-5">
+                        <p class="mb-3">Your wishlist is empty.</p>
+                        <a href="{{ route('shop') }}" class="btn btn-primary">
+                          Browse Products
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                @endforelse
               </tbody>
             </table>
             <div class="cart-table-footer">
