@@ -24,8 +24,10 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/account', [UserController::class, 'account'])->name('home');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
-    Route::post('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
+    Route::patch('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
+    Route::patch('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
+    Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
+    Route::delete('/cart', [CartController::class, 'destroyAll'])->name('destroy.all');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {
