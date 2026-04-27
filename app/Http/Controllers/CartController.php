@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,6 +70,20 @@ class CartController extends Controller
             $cartItem->delete();
         }
 
+        return redirect()->back();
+    }
+
+    public function destroy(CartItem $cartItem)
+    {
+        $cartItem->delete();
+        return redirect()->back();
+    }
+
+    public function destroyAll()
+    {
+        $user = Auth::user();
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $cart->items()->delete();
         return redirect()->back();
     }
 }
