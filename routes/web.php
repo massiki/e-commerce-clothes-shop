@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ShopController::class, 'detail'])->name('shop-detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
 
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
@@ -28,6 +30,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::patch('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
     Route::delete('/cart', [CartController::class, 'destroyAll'])->name('destroy.all');
+    Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist');
+    Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {

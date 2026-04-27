@@ -1,11 +1,18 @@
 @php
   use App\Models\Cart;
+  use App\Models\Wishlist;
+
   $cartCount = 0;
   if (auth()->check()) {
       $cartCount = Cart::where('user_id', auth()->id())
           ->first()
           ->items()
           ->count();
+  }
+
+  $wishlistCount = 0;
+  if (auth()->check()) {
+      $wishlistCount = Wishlist::where('user_id', auth()->id())->count();
   }
 @endphp
 
@@ -294,13 +301,13 @@
       <div class="overflow-hidden">
         <ul class="navigation__list list-unstyled position-relative">
           <li class="navigation__item">
-            <a href="index.html" class="navigation__link">Home</a>
+            <a href="{{ route('home') }}" class="navigation__link">Home</a>
           </li>
           <li class="navigation__item">
-            <a href="shop.html" class="navigation__link">Shop</a>
+            <a href="{{ route('shop') }}" class="navigation__link">Shop</a>
           </li>
           <li class="navigation__item">
-            <a href="cart.html" class="navigation__link">Cart</a>
+            <a href="{{ route('cart') }}" class="navigation__link">Cart</a>
           </li>
           <li class="navigation__item">
             <a href="about.html" class="navigation__link">About</a>
@@ -467,10 +474,11 @@
           </div>
         @endguest
 
-        <a href="wishlist.html" class="header-tools__item">
+        <a href="{{ route('wishlist') }}" class="header-tools__item header-tools__cart">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_heart" />
           </svg>
+          <span class="cart-amount d-block position-absolute js-cart-items-count">{{ $wishlistCount }}</span>
         </a>
 
         <a href="{{ route('cart') }}" class="header-tools__item header-tools__cart">
