@@ -68,7 +68,12 @@
                       <span>1</span>
                     </td>
                     <td>
-                      <button class="shopping-cart__subtotal btn btn-warning">MOVE TO CART</button>
+                      <form action="{{ route('user.wishlist.move') }}" method="post">
+                        @csrf
+                        <input type="hidden" value="{{ $wishlist->id }}" name="wishlistId" />
+                        <input type="hidden" value="{{ $wishlist->product_id }}" name="productId" />
+                        <button type="submiit" class="shopping-cart__subtotal btn btn-warning">MOVE TO CART</button>
+                      </form>
                     </td>
                     <td>
                       <form action="{{ route('user.wishlist.destroy', $wishlist->id) }}" method="POST"
