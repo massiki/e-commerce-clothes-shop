@@ -118,10 +118,12 @@
               </tbody>
             </table>
             <div class="cart-table-footer">
-              <form action="#" class="position-relative bg-body">
-                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
+              <form action="{{ session()->has('coupon') ? route('user.remove.coupon') : route('user.apply.coupon') }}"
+                method="post" class="position-relative bg-body">
+                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
+                  value="{{ session('coupon.code') }}">
                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                  value="APPLY COUPON">
+                  value="{{ session()->has('coupon') ? 'REMOVE COUPON' : 'APPLY COUPON' }}">
               </form>
               <form action="{{ route('user.destroy.all') }}" method="post">
                 @method('delete')
@@ -129,36 +131,54 @@
                 <button type="submit" class="btn btn-light">DELETE ALL CART</button>
               </form>
             </div>
+            @if ($errors->has('coupon_code'))
+              <span class="text-red">{{ $errors->first('coupon_code') }}</span>
+            @endif
+
+            @if (session('error'))
+              <span class="text-red">{{ session('error') }}</span>
+            @elseif (session('success'))
+              <span style="color: green">{{ session('success') }}</span>
+            @elseif (session()->has('coupon'))
+              <span style="color: green">Coupon applied successfully!</span>
+            @endif
+
           </div>
           <div class="shopping-cart__totals-wrapper">
             <div class="sticky-content">
               <div class="shopping-cart__totals">
                 <h3>Cart Totals</h3>
+                @php
+                  $cartTotal = 0;
+                  foreach ($cartItems as $item) {
+                      $price = $item->product->sale_price ?? $item->product->regular_price;
+                      $cartTotal += $price * $item->quantity;
+                  }
+                @endphp
+
                 <table class="cart-totals">
                   <tbody>
                     <tr>
                       <th>Subtotal</th>
-                      <td>Rp -</td>
+                      <td>
+                        Rp {{ number_format($cartTotal ?? 0, 0, ',', '.') }}
+                      </td>
                     </tr>
+                    @if (session()->has('coupon'))
+                      <tr>
+                        <th>Discount ({{ session('coupon.code') }})</th>
+                        <td>- Rp {{ number_format(session('coupon.discount'), 0, ',', '.') }}</td>
+                      </tr>
+                    @endif
                     <tr>
                       <th>Shipping</th>
                       <td>
                         <div class="form-check">
-                          <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                            id="free_shipping">
+                          <input class="form-check-input form-check-input_fill" type="radio" name="shipping"
+                            id="free_shipping" checked>
                           <label class="form-check-label" for="free_shipping">Free shipping</label>
                         </div>
-                        <div class="form-check">
-                          <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                            id="flat_rate">
-                          <label class="form-check-label" for="flat_rate">Flat rate: $49</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                            id="local_pickup">
-                          <label class="form-check-label" for="local_pickup">Local pickup: $8</label>
-                        </div>
-                        <div>Shipping to AL.</div>
+                        <div>Shipping to Indonesia.</div>
                         <div>
                           <a href="#" class="menu-link menu-link_us-s">CHANGE ADDRESS</a>
                         </div>
@@ -166,22 +186,23 @@
                     </tr>
                     <tr>
                       <th>VAT</th>
-                      <td>$19</td>
+                      <td>Rp 0</td>
                     </tr>
                     <tr>
                       <th>Total</th>
-                      <td>$1319</td>
+                      <td>Rp {{ number_format($cartTotal - session('coupon.discount'), 0, ',', '.') }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="mobile_fixed-btn_wrapper">
                 <div class="button-wrapper container">
-                  <a href="checkout.html" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
+                  <a href="#" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       @else
         <div class="alert alert-warning mt-4 mb-4 text-center" role="alert">
