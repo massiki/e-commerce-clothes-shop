@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,23 @@ class WishlistController extends Controller
     {
         $user = Auth::user();
         Wishlist::where('user_id', $user->id)->delete();
+        return redirect()->back();
+    }
+
+    public function move(Request $request)
+    {
+        $user = Auth::user();
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $cartItem = $cart->items()->where('product_id', $request->productId)->first();
+        if ($cartItem) {
+            $cartItem->increment('quantity');
+        } else {
+            $cart->items()->create([
+                'product_id' => $request->productId,
+                'quantity' => 1,
+            ]);
+        }
+        Wishlist::find($request->wishlistId)->delete();
         return redirect()->back();
     }
 }
