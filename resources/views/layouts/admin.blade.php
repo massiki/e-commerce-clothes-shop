@@ -80,7 +80,8 @@
                   <x-sidebar-submenu-admin href="#" title="Order tracking" />
                 </x-sidebar-menu-admin>
                 <x-sidebar-link-admin href="#" icon="icon-image" title="Slider" />
-                <x-sidebar-link-admin href="#" icon="icon-grid" title="Coupns" />
+                <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupns"
+                  isActive="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}" />
                 <x-sidebar-link-admin href="#" icon="icon-user" title="User" />
                 <x-sidebar-link-admin href="#" icon="icon-settings" title="Settings" />
                 <li class="menu-item">
