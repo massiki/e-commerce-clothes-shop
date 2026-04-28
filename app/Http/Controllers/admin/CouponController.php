@@ -13,7 +13,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $coupons = Coupon::orderBy('created_at', 'desc')->get();
+        $coupons = Coupon::latest('id')->paginate(10);
         return view('admin.coupon.index', compact('coupons'));
     }
 
