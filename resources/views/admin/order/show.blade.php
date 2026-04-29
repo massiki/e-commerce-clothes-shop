@@ -132,12 +132,35 @@
               <th>Order Date</th>
               <td>{{ $order->created_at->format('d M Y H:i') }}</td>
               <th>Delivered Date</th>
-              <td>{{ $order->delivered_date ? $order->delivered_date->format('d M Y H:i') : '' }}</td>
+              <td>
+                @if ($order->delivered_date)
+                  {{ \Carbon\Carbon::parse($order->delivered_date)->format('d M Y') }}
+                @endif
+              </td>
               <th>Canceled Date</th>
-              <td>{{ $order->cancelled_date ? $order->cancelled_date->format('d M Y H:i') : '' }}</td>
+              <td>
+                @if ($order->cancelled_date)
+                  {{ \Carbon\Carbon::parse($order->cancelled_date)->format('d M Y') }}
+                @endif
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="mt-5 d-flex">
+        @if ($order->status == 'ordered')
+          <form action="{{ route('admin.deliver', $order->id) }}" method="post">
+            @method('patch')
+            @csrf
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 me-3">Deliver</button>
+          </form>
+          <form action="{{ route('admin.cancel', $order->id) }}" method="post">
+            @method('patch')
+            @csrf
+            <button type="submit" class="btn btn-danger btn-lg px-5 py-3">Cancel</button>
+          </form>
+        @endif
       </div>
     </div>
   </div>

@@ -32,10 +32,10 @@
                     <tr>
                       <td class="text-center">{{ $loop->iteration }}</td>
                       <td class="text-center">
-                        {{ $order->user->address->name }}
+                        {{ $order->name }}
                       </td>
                       <td class="text-center">
-                        {{ $order->user->address->phone }}
+                        {{ $order->phone }}
                       </td>
                       <td class="text-center">
                         Rp {{ number_format($order->subtotal, 0, ',', '.') }}
