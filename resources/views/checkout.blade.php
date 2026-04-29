@@ -6,21 +6,21 @@
     <section class="shop-checkout container">
       <h2 class="page-title">Shipping and Checkout</h2>
       <div class="checkout-steps">
-        <a href="{{ route('cart') }}" class="checkout-steps__item active">
+        <a href="javacript:void(0)" class="checkout-steps__item active">
           <span class="checkout-steps__item-number">01</span>
           <span class="checkout-steps__item-title">
             <span>Shopping Bag</span>
             <em>Manage Your Items List</em>
           </span>
         </a>
-        <a href="{{ route('user.checkout') }}" class="checkout-steps__item active">
+        <a href="javacript:void(0)" class="checkout-steps__item active">
           <span class="checkout-steps__item-number">02</span>
           <span class="checkout-steps__item-title">
             <span>Shipping and Checkout</span>
             <em>Checkout Your Items List</em>
           </span>
         </a>
-        <a href="#" class="checkout-steps__item">
+        <a href="javacript:void(0)" class="checkout-steps__item">
           <span class="checkout-steps__item-number">03</span>
           <span class="checkout-steps__item-title">
             <span>Confirmation</span>
@@ -29,7 +29,8 @@
         </a>
       </div>
 
-      <form name="checkout-form" action="#">
+      <form name="checkout-form" action="{{ route('user.order') }}" method="post">
+        @csrf
         <div class="checkout-form">
           {{-- shipping detail --}}
           <div class="billing-info__wrapper">
@@ -44,58 +45,93 @@
             <div class="row mt-5">
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="name" required="">
+                  <input type="text" class="form-control" id="name" name="name"
+                    value="{{ old('name', isset($address) ? $address->name : '') }}">
                   <label for="name">Full Name *</label>
-                  <span class="text-danger"></span>
+                  @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="phone" required="">
+                  <input type="text" class="form-control" id="phone" name="phone"
+                    value="{{ old('phone', isset($address) ? $address->phone : '') }}">
                   <label for="phone">Phone Number *</label>
-                  <span class="text-danger"></span>
+                  @error('phone')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="zip" required="">
-                  <label for="zip">Pincode *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="province" name="province"
+                    value="{{ old('province', isset($address) ? $address->province : '') }}">
+                  <label for="province">Province *</label>
+                  @error('province')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" name="state" required="">
-                  <label for="state">State *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="city" name="city"
+                    value="{{ old('city', isset($address) ? $address->city : '') }}">
+                  <label for="city">City *</label>
+                  @error('city')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="city" required="">
-                  <label for="city">Town / City *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="district" name="district"
+                    value="{{ old('district', isset($address) ? $address->district : '') }}">
+                  <label for="district">District *</label>
+                  @error('district')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="address" required="">
-                  <label for="address">House no, Building Name *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="subdistrict" name="subdistrict"
+                    value="{{ old('subdistrict', isset($address) ? $address->subdistrict : '') }}">
+                  <label for="subdistrict">Subdistrict *</label>
+                  @error('subdistrict')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="locality" required="">
-                  <label for="locality">Road Name, Area, Colony *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="postal_code" name="postal_code"
+                    value="{{ old('postal_code', isset($address) ? $address->postal_code : '') }}">
+                  <label for="postal_code">Postal Code *</label>
+                  @error('postal_code')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" name="landmark" required="">
-                  <label for="landmark">Landmark *</label>
-                  <span class="text-danger"></span>
+                  <input type="text" class="form-control" id="full_address" name="full_address"
+                    value="{{ old('full_address', isset($address) ? $address->full_address : '') }}">
+                  <label for="full_address">Full Address *</label>
+                  @error('full_address')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-floating my-3">
+                  <input type="text" class="form-control" id="address_note" name="address_note"
+                    value="{{ old('address_note', isset($address) ? $address->address_note : '') }}">
+                  <label for="address_note">Address Note *</label>
+                  @error('address_note')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
               </div>
             </div>
@@ -170,60 +206,52 @@
               <div class="checkout__payment-methods">
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_1" checked>
-                  <label class="form-check-label" for="checkout_payment_method_1">
-                    Bank transfer
+                    id="checkout_payment_method_bank_transfer" value="bank_transfer" checked>
+                  <label class="form-check-label" for="checkout_payment_method_bank_transfer">
+                    Bank Transfer
                     <p class="option-detail">
                       Make your payment directly into our bank account. Please use your Order ID as the payment
-                      reference.Your order will not be shipped until the funds have cleared in our account.
+                      reference. Your order will not be shipped until the funds have cleared in our account.
                     </p>
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_2">
-                  <label class="form-check-label" for="checkout_payment_method_2">
-                    E_wallet
+                    id="checkout_payment_method_ewallet" value="e_wallet">
+                  <label class="form-check-label" for="checkout_payment_method_ewallet">
+                    E-Wallet
                     <p class="option-detail">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
+                      Pay easily using popular e-wallets like OVO, Dana, GoPay, and others.
                     </p>
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_3">
-                  <label class="form-check-label" for="checkout_payment_method_3">
-                    Cash on delivery (COD)
+                    id="checkout_payment_method_cod" value="cod">
+                  <label class="form-check-label" for="checkout_payment_method_cod">
+                    Cash on Delivery (COD)
                     <p class="option-detail">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
+                      Pay with cash upon receiving your order at your doorstep
                     </p>
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_4">
-                  <label class="form-check-label" for="checkout_payment_method_4">
+                    id="checkout_payment_method_qris" value="qris">
+                  <label class="form-check-label" for="checkout_payment_method_qris">
                     QRIS
                     <p class="option-detail">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
+                      Pay with QRIS compatible apps by scanning the QR code after order submission.
                     </p>
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_4">
-                  <label class="form-check-label" for="checkout_payment_method_4">
+                    id="checkout_payment_method_virtual_account" value="virtual_account">
+                  <label class="form-check-label" for="checkout_payment_method_virtual_account">
                     Virtual Account
                     <p class="option-detail">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
+                      Transfer your payment to a unique virtual account number generated for your order.
                     </p>
                   </label>
                 </div>
@@ -233,7 +261,8 @@
                   <a href="#" target="_blank">privacy policy</a>.
                 </div>
               </div>
-              <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+
+              <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </div>
           </div>
         </div>
