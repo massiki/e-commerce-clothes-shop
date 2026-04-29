@@ -187,4 +187,12 @@ class CartController extends Controller
             'final_total' => $finalTotal,
         ]);
     }
+
+    public function checkout()
+    {
+        $user = Auth::user()->id;
+        $cart = Cart::where('user_id', $user)->first();
+        // dd($cart->items->first()->product->name);
+        return view('checkout', compact('cart'));
+    }
 }

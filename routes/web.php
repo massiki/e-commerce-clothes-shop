@@ -27,6 +27,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
     Route::get('/account', [UserController::class, 'account'])->name('home');
 
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
     Route::patch('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
