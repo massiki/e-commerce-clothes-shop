@@ -6,24 +6,7 @@
     <section class="my-account container">
       <h2 class="page-title">Account Details</h2>
       <div class="row">
-        <div class="col-lg-3">
-          <ul class="account-nav">
-            <li><a href="my-account.html" class="menu-link menu-link_us-s menu-link_active">Dashboard</a></li>
-            <li><a href="account-orders.html" class="menu-link menu-link_us-s">Orders</a></li>
-            <li><a href="account-address.html" class="menu-link menu-link_us-s">Addresses</a></li>
-            <li><a href="account-details.html" class="menu-link menu-link_us-s">Account Details</a></li>
-            <li><a href="account-wishlist.html" class="menu-link menu-link_us-s">Wishlist</a></li>
-            <li>
-              <a href="{{ route('logout') }}" class="menu-link menu-link_us-s"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout
-              </a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
-            </li>
-
-          </ul>
-        </div>
+        <x-sidebar-user />
         <div class="col-lg-9">
           <div class="page-content my-account__edit">
             <div class="my-account__edit-form">
