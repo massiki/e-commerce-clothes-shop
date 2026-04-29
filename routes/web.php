@@ -13,6 +13,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Auth::routes();
 
@@ -46,4 +47,9 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('coupons', CouponController::class);
+});
+
+
+Route::get('/session', function (Request $request) {
+    dd($request->session());
 });
