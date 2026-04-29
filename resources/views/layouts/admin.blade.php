@@ -75,12 +75,15 @@
                   <x-sidebar-submenu-admin href="{{ route('admin.categories.index') }}" title="Categories"
                     isActive="{{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" />
                 </x-sidebar-menu-admin>
-                <x-sidebar-menu-admin icon="icon-file-plus" title="Order">
-                  <x-sidebar-submenu-admin href="#" title="Orders" />
+                <x-sidebar-menu-admin icon="icon-file-plus" title="Order"
+                  isOpen="{{ request()->routeIs('admin.orders.index') ? 'open active' : '' }}"
+                  isActive="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
+                  <x-sidebar-submenu-admin href="{{ route('admin.orders.index') }}" title="Orders"
+                    isActive="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" />
                   <x-sidebar-submenu-admin href="#" title="Order tracking" />
                 </x-sidebar-menu-admin>
                 <x-sidebar-link-admin href="#" icon="icon-image" title="Slider" />
-                <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupns"
+                <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupons"
                   isActive="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}" />
                 <x-sidebar-link-admin href="#" icon="icon-user" title="User" />
                 <x-sidebar-link-admin href="#" icon="icon-settings" title="Settings" />
