@@ -13,4 +13,9 @@ class OrderController extends Controller
         $orders = Order::latest('id')->paginate(10);
         return view('admin.order.index', compact('orders'));
     }
+
+    public function show(Order $order)
+    {
+        return view('admin.order.show', compact('order'));
+    }
 }

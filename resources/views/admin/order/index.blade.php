@@ -78,7 +78,7 @@
                       {{ $order->delivered_date ? $order->delivered_date->format('d M Y H:i') : '-' }}
                     </td>
                     <td class="text-center">
-                      <a href="#">
+                      <a href="{{ route('admin.orders.show', $order->id) }}">
                         <div class="list-icon-function view-icon">
                           <div class="item eye">
                             <i class="icon-eye"></i>
