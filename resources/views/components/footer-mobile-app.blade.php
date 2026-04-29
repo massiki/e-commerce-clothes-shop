@@ -3,17 +3,13 @@
   use App\Models\Wishlist;
 
   $cartCount = 0;
-  if (auth()->check()) {
-      $cartCount = Cart::where('user_id', auth()->id())
-          ->first()
-          ->items()
-          ->count();
-  }
-
   $wishlistCount = 0;
   if (auth()->check()) {
+      $cart = Cart::where('user_id', auth()->id())->first();
+      $cartCount = $cart ? $cart->items()->count() : 0;
       $wishlistCount = Wishlist::where('user_id', auth()->id())->count();
   }
+
 @endphp
 
 <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
