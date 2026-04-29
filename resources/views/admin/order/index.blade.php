@@ -72,10 +72,12 @@
                         <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
                       @endif
                     </td>
-                    <td class="text-center">{{ $order->created_at->format('d M Y H:i') }}</td>
+                    <td class="text-center">{{ $order->created_at->format('d M Y') }}</td>
                     <td class="text-center">{{ $order->items->count() }}</td>
                     <td class="text-center">
-                      {{ $order->delivered_date ? $order->delivered_date->format('d M Y H:i') : '-' }}
+                      @if ($order->delivered_date)
+                        {{ \Carbon\Carbon::parse($order->delivered_date)->format('d M Y') }}
+                      @endif
                     </td>
                     <td class="text-center">
                       <a href="{{ route('admin.orders.show', $order->id) }}">

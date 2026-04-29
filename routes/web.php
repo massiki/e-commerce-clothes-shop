@@ -9,13 +9,14 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\user\OrderController as UserOrderController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\user\OrderController as UserOrderController;
+
 
 Auth::routes();
 
@@ -58,6 +59,9 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->
 
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+    Route::patch('/deliver/{order}', [OrderController::class, 'deliver'])->name('deliver');
+    Route::patch('/cancel/{order}', [OrderController::class, 'cancel'])->name('cancel');
 });
 
 
