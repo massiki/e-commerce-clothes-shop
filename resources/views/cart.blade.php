@@ -7,21 +7,21 @@
       <h2 class="page-title">Cart</h2>
       @auth
         <div class="checkout-steps">
-          <a href="cart.html" class="checkout-steps__item active">
+          <a href="javacript:void(0)" class="checkout-steps__item active">
             <span class="checkout-steps__item-number">01</span>
             <span class="checkout-steps__item-title">
               <span>Shopping Bag</span>
               <em>Manage Your Items List</em>
             </span>
           </a>
-          <a href="checkout.html" class="checkout-steps__item">
+          <a href="javacript:void(0)" class="checkout-steps__item">
             <span class="checkout-steps__item-number">02</span>
             <span class="checkout-steps__item-title">
               <span>Shipping and Checkout</span>
               <em>Checkout Your Items List</em>
             </span>
           </a>
-          <a href="order-confirmation.html" class="checkout-steps__item">
+          <a href="javacript:void(0)" class="checkout-steps__item">
             <span class="checkout-steps__item-number">03</span>
             <span class="checkout-steps__item-title">
               <span>Confirmation</span>
@@ -65,7 +65,7 @@
                     </td>
                     <td>
                       <span class="shopping-cart__product-price">Rp
-                        {{ $price }}</span>
+                        {{ number_format($price, 0, ',', '.') }}</span>
                     </td>
                     <td>
                       <div class="qty-control position-relative">
@@ -86,7 +86,8 @@
                       </div>
                     </td>
                     <td>
-                      <span class="shopping-cart__subtotal">Rp {{ $price * $item->quantity }}</span>
+                      <span class="shopping-cart__subtotal">Rp
+                        {{ number_format($price * $item->quantity, 0, ',', '.') }}</span>
                     </td>
                     <td>
                       <form action="{{ route('user.destroy', $item->id) }}" method="post">

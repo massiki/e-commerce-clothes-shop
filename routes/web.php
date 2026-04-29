@@ -28,6 +28,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/account', [UserController::class, 'account'])->name('home');
 
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CartController::class, 'order'])->name('order');
+    Route::get('/order-confirmation/{transaction}', [CartController::class, 'confirmation'])->name('confirmation');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
