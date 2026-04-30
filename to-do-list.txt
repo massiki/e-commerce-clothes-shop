@@ -5,4 +5,4 @@
 - show 2 product cheap in home page
 - change logo and name store
 - change link medsos
-- change information footer category and shop
+- replace component x wih include in admin 
