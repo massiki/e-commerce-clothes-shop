@@ -2,6 +2,7 @@
 
 @section('content')
   <main>
+    {{-- slider --}}
     <section class="swiper-container js-swiper-slider swiper-number-pagination slideshow"
       data-settings='{
         "autoplay": {
@@ -35,7 +36,6 @@
             </div>
           </div>
         </div>
-
         <div class="swiper-slide">
           <div class="overflow-hidden position-relative h-100">
             <div class="slideshow-character position-absolute bottom-0 pos_right-center">
@@ -58,7 +58,6 @@
             </div>
           </div>
         </div>
-
         <div class="swiper-slide">
           <div class="overflow-hidden position-relative h-100">
             <div class="slideshow-character position-absolute bottom-0 pos_right-center">
@@ -78,18 +77,19 @@
           </div>
         </div>
       </div>
-
       <div class="container">
         <div
           class="slideshow-pagination slideshow-number-pagination d-flex align-items-center position-absolute bottom-0 mb-5">
         </div>
       </div>
     </section>
+    {{-- end slider --}}
+
     <div class="container mw-1620 bg-white border-radius-10">
       <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
+      {{-- show 8 category --}}
       <section class="category-carousel container">
         <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">You Might Like</h2>
-
         <div class="position-relative">
           <div class="swiper-container js-swiper-slider"
             data-settings='{
@@ -130,62 +130,16 @@
               }
             }'>
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_1.png" width="124"
-                  height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Women<br />Tops</a>
+              @foreach ($categories as $category)
+                <div class="swiper-slide">
+                  <img loading="lazy" class="w-100 h-auto mb-3" src="{{ asset('storage/' . $category->image) }}"
+                    width="124" height="124" alt="" />
+                  <div class="text-center">
+                    <a href="{{ url('shop') }}?category={{ $category->slug }}"
+                      class="menu-link fw-medium">{{ $category->name }}</a>
+                  </div>
                 </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_2.png" width="124"
-                  height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Women<br />Pants</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_3.png" width="124"
-                  height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Women<br />Clothes</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_4.png" width="124"
-                  height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Men<br />Jeans</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_5.png"
-                  width="124" height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Men<br />Shirts</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_6.png"
-                  width="124" height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Men<br />Shoes</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_7.png"
-                  width="124" height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Women<br />Dresses</a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <img loading="lazy" class="w-100 h-auto mb-3" src="assets/images/home/demo3/category_8.png"
-                  width="124" height="124" alt="" />
-                <div class="text-center">
-                  <a href="#" class="menu-link fw-medium">Kids<br />Tops</a>
-                </div>
-              </div>
+              @endforeach
             </div><!-- /.swiper-wrapper -->
           </div><!-- /.swiper-container js-swiper-slider -->
 
@@ -203,9 +157,11 @@
           </div><!-- /.products-carousel__next -->
         </div><!-- /.position-relative -->
       </section>
+      {{-- end show 8 category --}}
 
       <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
+      {{-- show 8 sale product --}}
       <section class="hot-deals container">
         <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">Hot Deals</h2>
         <div class="row">
@@ -580,9 +536,11 @@
           </div>
         </div>
       </section>
+      {{-- end show 8 sale product --}}
 
       <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
+      {{-- show 2 sale product --}}
       <section class="category-banner container">
         <div class="row">
           <div class="col-md-6">
@@ -613,9 +571,11 @@
           </div>
         </div>
       </section>
+      {{-- end show 2 sale product --}}
 
       <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
+      {{-- show 8 product featured --}}
       <section class="products-grid container">
         <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">Featured Products</h2>
 
@@ -926,6 +886,7 @@
           <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
         </div>
       </section>
+      {{-- end show 8 product featured --}}
     </div>
 
     <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
