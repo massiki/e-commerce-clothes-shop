@@ -1,5 +1,4 @@
 - create about page
-- admin search product
 - bug untuk tampilan wishlist dan add fitur wishlist in product detail page (wishlist bisa active ketika belum login maupun di account lain)
 - add tag new product in shop page
 - add produt to cart in product detail page

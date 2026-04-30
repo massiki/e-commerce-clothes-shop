@@ -25,8 +25,8 @@
           <div class="wg-filter flex-grow">
             <form class="form-search">
               <fieldset class="name">
-                <input type="text" placeholder="Search here..." class="" name="name" tabindex="2"
-                  value="" aria-required="true" required="">
+                <input type="text" placeholder="Search here..." class="" name="search" tabindex="2"
+                  value="{{ request('search') }}" aria-required="true">
               </fieldset>
               <div class="button-submit">
                 <button class="" type="submit"><i class="icon-search"></i></button>
