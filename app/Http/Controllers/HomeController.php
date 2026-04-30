@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +15,8 @@ class HomeController extends Controller
         $categories = Category::inRandomOrder()->take(8)->get();
         $featuredProducts = Product::where('featured', 1)->inRandomOrder()->take(8)->get();
         $saleProducts = Product::whereNotNull('sale_price')->inRandomOrder()->take(8)->get();
-        return view('home', compact('categories', 'featuredProducts', 'saleProducts'));
+        $sliders = Slider::latest('id')->get();
+        return view('home', compact('categories', 'featuredProducts', 'saleProducts', 'sliders'));
     }
 
     public function brands()

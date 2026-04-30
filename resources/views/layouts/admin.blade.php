@@ -82,7 +82,8 @@
                     isActive="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" />
                   <x-sidebar-submenu-admin href="#" title="Order tracking" />
                 </x-sidebar-menu-admin>
-                <x-sidebar-link-admin href="#" icon="icon-image" title="Slider" />
+                <x-sidebar-link-admin href="{{ route('admin.sliders.index') }}" icon="icon-image" title="Slider"
+                  isActive="{{ request()->routeIs('admin.sliders.index') }}" />
                 <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupons"
                   isActive="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}" />
                 <x-sidebar-link-admin href="#" icon="icon-user" title="User" />

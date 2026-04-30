@@ -1,5 +1,7 @@
-- make home page slider
 - create contanct us page
+- create about page
 - fitur search product
 - admin search product
-- bug untuk tampilan wishlist (wishlist bisa active ketika belum login maupun di account lain)
+- bug untuk tampilan wishlist dan add fitur wishlist in product detail page (wishlist bisa active ketika belum login maupun di account lain)
+- add tag new product in shop page
+- add produt to cart in product detail page
