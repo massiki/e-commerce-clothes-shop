@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
@@ -57,6 +58,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('coupons', CouponController::class);
+    Route::resource('sliders', SliderController::class);
 
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
