@@ -149,6 +149,93 @@
   <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
   <script src="{{ asset('assets/js/theme.js') }}"></script>
   @stack('scripts')
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // desktop
+      let inputSearch = document.getElementById('search-product')
+      let resultBox = document.getElementById('search-result')
+      let timeout;
+      inputSearch.addEventListener('input', (event) => {
+        let keyword = event.target.value;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          if (keyword.trim() === "") {
+            resultBox.innerHTML = "";
+            return;
+          }
+          fetch(`{{ url('search-product') }}?search=${encodeURIComponent(keyword)}`)
+            .then(res => res.json())
+            .then(data => {
+              let products = data.product || [];
+              let html = '';
+              if (products.length > 0) {
+                html = products.map(product => `
+                  <li class="sub-menu__item d-flex align-items-center gap-3 bg-white rounded-2 shadow-sm p-2 mb-2" style="min-width: 220px;">
+                    <div class="d-flex align-items-center justify-content-center bg-light border rounded-1 flex-shrink-0"
+                      style="width: 48px; height: 48px; overflow: hidden;">
+                      <img src="${'{{ asset('storage/') }}/' + product.image }" alt="${product.name}" class="img-fluid"
+                        style="max-width:100%; max-height:100%; object-fit:cover;">
+                    </div>
+                    <a href="{{ url('shop') }}/${product.slug}" class="menu-link menu-link_us-s fw-medium text-dark text-decoration-none">${product.name}</a>
+                  </li>
+                `).join('');
+              } else {
+                html = `<li class="sub-menu__item text-center w-100 p-2">No products found</li>`;
+              }
+              resultBox.innerHTML = html;
+            })
+            .catch(error => {
+              resultBox.innerHTML =
+                `<li class="sub-menu__item text-center w-100 p-2">Error fetching products</li>`;
+              console.log('gagal mengambil data', error);
+            });
+        }, 500);
+      });
+      // end desktop
+
+      // mobile
+      let inputSearchMobile = document.getElementById('search-product-mobile')
+      let resultBoxMobile = document.getElementById('search-result-mobile')
+      let timeoutMobile;
+      inputSearchMobile.addEventListener('input', (event) => {
+        let keyword = event.target.value;
+        clearTimeout(timeoutMobile);
+        timeoutMobile = setTimeout(() => {
+          if (keyword.trim() === "") {
+            resultBoxMobile.innerHTML = "";
+            return;
+          }
+          fetch(`{{ url('search-product') }}?search=${encodeURIComponent(keyword)}`)
+            .then(res => res.json())
+            .then(data => {
+              let products = data.product || [];
+              let html = '';
+              if (products.length > 0) {
+                html = products.map(product => `
+                  <li class="sub-menu__item d-flex align-items-center gap-3 bg-white rounded-2 shadow-sm p-2 mb-2" style="min-width: 220px;">
+                    <div class="d-flex align-items-center justify-content-center bg-light border rounded-1 flex-shrink-0"
+                      style="width: 48px; height: 48px; overflow: hidden;">
+                      <img src="${'{{ asset('storage/') }}/' + product.image }" alt="${product.name}" class="img-fluid"
+                        style="max-width:100%; max-height:100%; object-fit:cover;">
+                    </div>
+                    <a href="{{ url('shop') }}/${product.slug}" class="menu-link menu-link_us-s fw-medium text-dark text-decoration-none">${product.name}</a>
+                  </li>
+                `).join('');
+              } else {
+                html = `<li class="sub-menu__item text-center w-100 p-2">No products found</li>`;
+              }
+              resultBoxMobile.innerHTML = html;
+            })
+            .catch(error => {
+              resultBoxMobile.innerHTML =
+                `<li class="sub-menu__item text-center w-100 p-2">Error fetching products</li>`;
+              console.log('gagal mengambil data', error);
+            });
+        }, 500);
+      });
+      // end mobile
+    });
+  </script>
 </body>
 
 </html>

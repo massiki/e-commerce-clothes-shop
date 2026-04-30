@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController as ControllersContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\user\UserController;
@@ -30,6 +31,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
 Route::get('/contact', [ControllersContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ControllersContactController::class, 'store'])->name('contact.store');
+
+Route::get('/search-product', [SearchController::class, 'search'])->name('search.product');
 
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
