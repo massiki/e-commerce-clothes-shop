@@ -1,6 +1,5 @@
-- user order cancelation (sedand dikerjakan)
 - make home page slider
-- making admin dashboard page dinamic
+- making admin dashboard page dinamic (sedang dikerjakan)
 - show category in home page
 - show on sale product on home page
 - show features product on home page
