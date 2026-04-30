@@ -17,7 +17,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest('id')->paginate(10);
+        if (request('search')) {
+            $products = Product::where('name', 'like', '%' . request('search') . '%')->latest('id')->paginate(10);
+        } else {
+            $products = Product::latest('id')->paginate(10);
+        }
         return view('admin.product.index', compact('products'));
     }
 
