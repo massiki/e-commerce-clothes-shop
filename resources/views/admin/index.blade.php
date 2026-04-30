@@ -5,6 +5,7 @@
 
     <div class="main-content-wrap">
       <div class="tf-section-2 mb-30">
+        {{-- cart information --}}
         <div class="flex gap20 flex-wrap-mobile">
           <div class="w-half">
 
@@ -16,7 +17,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Total Orders</div>
-                    <h4>3</h4>
+                    <h4>{{ $totalOrders }}</h4>
                   </div>
                 </div>
               </div>
@@ -31,7 +32,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Total Amount</div>
-                    <h4>481.34</h4>
+                    <h4>Rp {{ number_format($totalAmount, 0, ',', '.') }}</h4>
                   </div>
                 </div>
               </div>
@@ -46,7 +47,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Pending Orders</div>
-                    <h4>3</h4>
+                    <h4>{{ $totalOrdered }}</h4>
                   </div>
                 </div>
               </div>
@@ -61,7 +62,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Pending Orders Amount</div>
-                    <h4>481.34</h4>
+                    <h4>Rp {{ number_format($totalOrderedAmount, 0, ',', '.') }}</h4>
                   </div>
                 </div>
               </div>
@@ -79,7 +80,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Delivered Orders</div>
-                    <h4>0</h4>
+                    <h4>{{ $totalDelivered }}</h4>
                   </div>
                 </div>
               </div>
@@ -94,7 +95,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Delivered Orders Amount</div>
-                    <h4>0.00</h4>
+                    <h4>Rp {{ number_format($totalDeliveredAmount, 0, ',', '.') }}</h4>
                   </div>
                 </div>
               </div>
@@ -109,7 +110,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Canceled Orders</div>
-                    <h4>0</h4>
+                    <h4>{{ $totalCancelled }}</h4>
                   </div>
                 </div>
               </div>
@@ -124,7 +125,7 @@
                   </div>
                   <div>
                     <div class="body-text mb-2">Canceled Orders Amount</div>
-                    <h4>0.00</h4>
+                    <h4>Rp {{ number_format($totalCancelledAmount, 0, ',', '.') }}</h4>
                   </div>
                 </div>
               </div>
@@ -134,6 +135,7 @@
 
         </div>
 
+        {{-- grafict --}}
         <div class="wg-box">
           <div class="flex items-center justify-between">
             <h5>Earnings revenue</h5>
@@ -188,13 +190,15 @@
         </div>
 
       </div>
+
+      {{-- show 5 new orders --}}
       <div class="tf-section mb-30">
 
         <div class="wg-box">
           <div class="flex items-center justify-between">
             <h5>Recent orders</h5>
             <div class="dropdown default">
-              <a class="btn btn-secondary dropdown-toggle" href="#">
+              <a class="btn btn-secondary dropdown-toggle" href="{{ route('admin.orders.index') }}">
                 <span class="view-all">View all</span>
               </a>
             </div>
@@ -204,13 +208,12 @@
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 80px">OrderNo</th>
-                    <th>Name</th>
+                    <th class="text-center" style="width:30px">#</th>
+                    <th class="text-center">Name</th>
                     <th class="text-center">Phone</th>
                     <th class="text-center">Subtotal</th>
                     <th class="text-center">Tax</th>
                     <th class="text-center">Total</th>
-
                     <th class="text-center">Status</th>
                     <th class="text-center">Order Date</th>
                     <th class="text-center">Total Items</th>
@@ -219,27 +222,47 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-center">Divyansh Kumar</td>
-                    <td class="text-center">1234567891</td>
-                    <td class="text-center">$172.00</td>
-                    <td class="text-center">$36.12</td>
-                    <td class="text-center">$208.12</td>
-                    <td class="text-center">ordered</td>
-                    <td class="text-center">2024-07-11 00:54:14</td>
-                    <td class="text-center">2</td>
-                    <td></td>
-                    <td class="text-center">
-                      <a href="#">
-                        <div class="list-icon-function view-icon">
-                          <div class="item eye">
-                            <i class="icon-eye"></i>
+                  @forelse ($orders as $order)
+                    <tr>
+                      <td class="text-center">{{ $loop->iteration }}</td>
+                      <td class="text-center">{{ $order->name }}</td>
+                      <td class="text-center">{{ $order->phone }}</td>
+                      <td class="text-center">Rp {{ number_format($order->subtotal, 0, '.', '.') }}</td>
+                      <td class="text-center">Rp {{ number_format($order->tax, 0, '.', '.') }}</td>
+                      <td class="text-center">Rp {{ number_format($order->total, 0, '.', '.') }}</td>
+                      <td class="text-center">
+                        @if ($order->status == 'ordered')
+                          <span class="badge bg-warning text-dark">Ordered</span>
+                        @elseif ($order->status == 'delivered')
+                          <span class="badge bg-success">Delivered</span>
+                        @elseif ($order->status == 'cancelled')
+                          <span class="badge bg-danger">Cancelled</span>
+                        @else
+                          <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
+                        @endif
+                      </td>
+                      <td class="text-center">{{ $order->created_at->format('d M Y') }}</td>
+                      <td class="text-center">{{ $order->items->count() }}</td>
+                      <td class="text-center">
+                        @if ($order->delivered_date)
+                          {{ \Carbon\Carbon::parse($order->delivered_date)->format('d M Y') }}
+                        @endif
+                      </td>
+                      <td class="text-center">
+                        <a href="{{ route('admin.orders.show', $order->id) }}">
+                          <div class="list-icon-function view-icon">
+                            <div class="item eye">
+                              <i class="icon-eye"></i>
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </td>
-                  </tr>
+                        </a>
+                      </td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="11" class="text-center">No orders found.</td>
+                    </tr>
+                  @endforelse
                 </tbody>
               </table>
             </div>
