@@ -1,0 +1,10 @@
+- user order cancelation (sedand dikerjakan)
+- make home page slider
+- making admin dashboard page dinamic
+- show category in home page
+- show on sale product on home page
+- show features product on home page
+- create contanct us page
+- fitur search product
+- admin search product
+- bug untuk tampilan wishlist (wishlist bisa active ketika belum login maupun di account lain)

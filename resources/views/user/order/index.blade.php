@@ -47,10 +47,10 @@
                         Rp {{ number_format($order->total, 0, ',', '.') }}
                       </td>
                       <td class="text-center">
-                        @if ($order->status === 'Canceled')
-                          <span class="badge bg-danger">Canceled</span>
-                        @elseif($order->status === 'Delivered')
-                          <span class="badge bg-success">Delivered</span>
+                        @if ($order->status === 'cancelled')
+                          <span class="badge bg-danger">{{ $order->status }}</span>
+                        @elseif($order->status === 'delivered')
+                          <span class="badge bg-success">{{ $order->status }}</span>
                         @else
                           <span class="badge bg-warning">{{ $order->status }}</span>
                         @endif
