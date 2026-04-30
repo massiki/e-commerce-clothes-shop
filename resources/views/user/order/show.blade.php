@@ -33,19 +33,32 @@
                     <th>Order Date</th>
                     <td>{{ $order->created_at->format('d M Y H:i') }}</td>
                     <th>Delivered Date</th>
-                    <td>{{ $order->delivered_date ? $order->delivered_date->format('d M Y H:i') : '-' }}</td>
+                    <td>
+                      @if ($order->delivered_date)
+                        {{ \Carbon\Carbon::parse($order->delivered_date)->format('d M Y') }}
+                      @else
+                        -
+                      @endif
+                    </td>
                     <th>Canceled Date</th>
-                    <td>{{ $order->canceled_date ? $order->canceled_date->format('d M Y H:i') : '-' }}</td>
+                    <td>
+                      @if ($order->cancelled_date)
+                        {{ \Carbon\Carbon::parse($order->cancelled_date)->format('d M Y') }}
+                      @else
+                        -
+                      @endif
+                    </td>
                   </tr>
+
                   <tr>
                     <th>Order Status</th>
                     <td colspan="5">
-                      @if ($order->status == 'approved')
-                        <span class="badge bg-success">Approved</span>
-                      @elseif($order->status == 'pending')
-                        <span class="badge bg-warning">Pending</span>
-                      @elseif($order->status == 'canceled')
-                        <span class="badge bg-danger">Canceled</span>
+                      @if ($order->status == 'delivered')
+                        <span class="badge bg-success">{{ $order->status }}</span>
+                      @elseif($order->status == 'ordered')
+                        <span class="badge bg-warning">{{ $order->status }}</span>
+                      @elseif($order->status == 'cancelled')
+                        <span class="badge bg-danger">{{ $order->status }}</span>
                       @else
                         <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
                       @endif
@@ -176,21 +189,24 @@
                     <th>Order Date</th>
                     <td>{{ $order->created_at->format('d M Y H:i') }}</td>
                     <th>Delivered Date</th>
-                    <td>{{ $order->delivered_date ? $order->delivered_date->format('d M Y H:i') : '' }}</td>
+                    <td>
+                      {{ $order->delivered_date ? \Carbon\Carbon::parse($order->delivered_date)->format('d M Y') : '' }}
+                    </td>
                     <th>Canceled Date</th>
-                    <td>{{ $order->cancelled_date ? $order->cancelled_date->format('d M Y H:i') : '' }}</td>
+                    <td>
+                      {{ $order->cancelled_date ? \Carbon\Carbon::parse($order->cancelled_date)->format('d M Y') : '' }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          @if ($order->status == 'pending' || $order->status == 'approved')
+          @if ($order->status == 'ordered')
             <div class="wg-box mt-5 text-right">
-              <form action="{{ route('user.orders.show', $order->id) }}/cancel" method="POST">
+              <form action="{{ route('user.order.cancel', $order->id) }}" method="POST">
                 @csrf
-                @method('PUT')
-                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                @method('patch')
                 <button type="submit" class="btn btn-danger">Cancel Order</button>
               </form>
             </div>

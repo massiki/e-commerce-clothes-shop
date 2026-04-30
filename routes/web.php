@@ -35,6 +35,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/order-confirmation/{transaction}', [CartController::class, 'confirmation'])->name('confirmation');
     Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [UserOrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}', [UserOrderController::class, 'cancel'])->name('order.cancel');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/increase', [CartController::class, 'increase'])->name('cart.increase');
