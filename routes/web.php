@@ -3,10 +3,12 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\admin\CouponController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController as ControllersContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SliderController;
@@ -26,6 +28,8 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ShopController::class, 'detail'])->name('shop-detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+Route::get('/contact', [ControllersContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ControllersContactController::class, 'store'])->name('contact.store');
 
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
@@ -65,6 +69,9 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->
 
     Route::patch('/deliver/{order}', [OrderController::class, 'deliver'])->name('deliver');
     Route::patch('/cancel/{order}', [OrderController::class, 'cancel'])->name('cancel');
+
+    Route::get('/contacts',  [ContactController::class, 'index'])->name('contacts.index');
+    Route::delete('/contacts/{contact}',  [ContactController::class, 'destroy'])->name('contacts.destroy');
 });
 
 

@@ -87,7 +87,8 @@
                 <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupons"
                   isActive="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}" />
                 <x-sidebar-link-admin href="#" icon="icon-user" title="User" />
-                <x-sidebar-link-admin href="#" icon="icon-settings" title="Settings" />
+                <x-sidebar-link-admin href="{{ route('admin.contacts.index') }}" icon="icon-mail" title="Contact"
+                  isActive="{{ request()->routeIs('admin.contacts.index') ? 'active' : '' }}" />
                 <li class="menu-item">
                   <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
