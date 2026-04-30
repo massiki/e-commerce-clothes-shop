@@ -1,5 +1,4 @@
 - make home page slider
-- show on sale product on home page
 - create contanct us page
 - fitur search product
 - admin search product

@@ -13,7 +13,8 @@ class HomeController extends Controller
     {
         $categories = Category::inRandomOrder()->take(8)->get();
         $featuredProducts = Product::where('featured', 1)->inRandomOrder()->take(8)->get();
-        return view('home', compact('categories', 'featuredProducts'));
+        $saleProducts = Product::whereNotNull('sale_price')->inRandomOrder()->take(8)->get();
+        return view('home', compact('categories', 'featuredProducts', 'saleProducts'));
     }
 
     public function brands()
