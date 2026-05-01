@@ -1,3 +1,2 @@
 - create about page
-- change custom pagination in shop page
-- fix add cart and wishlist in realated product (sedang dikerjakan)
+- change custom pagination in shop page (sedang dikerjakan)
