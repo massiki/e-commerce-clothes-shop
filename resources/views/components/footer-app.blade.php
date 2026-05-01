@@ -47,7 +47,10 @@
         @include('components.link-footer-user', ['title' => 'About Us'])
         @include('components.link-footer-user', ['title' => 'Careers'])
         @include('components.link-footer-user', ['title' => 'Affiliates'])
-        @include('components.link-footer-user', ['title' => 'Blog'])
+        @include('components.link-footer-user', [
+            'title' => 'Blog',
+            'href' => 'https://blog.heyfikriamrullah.com',
+        ])
         @include('components.link-footer-user', [
             'title' => 'Contact Us',
             'href' => route('contact.index'),
