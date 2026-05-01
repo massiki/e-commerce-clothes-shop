@@ -1,58 +1,155 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Commerce Clothes Shop (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project ini adalah aplikasi **toko online sederhana** berbasis Laravel untuk katalog produk pakaian, keranjang belanja, checkout, dan manajemen order. Tersedia 2 peran utama: **User** (pembeli) dan **Admin** (pengelola).
 
-## About Laravel
+## Gambaran Sistem
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Role / Akses
+- **Guest (tanpa login)**
+  - Melihat homepage & slider, daftar produk (`/shop`), detail produk (`/shop/{slug}`)
+  - Lihat halaman cart & wishlist (tetapi aksi tambah/ubah memerlukan login)
+  - Kirim pesan via halaman contact
+- **User (login)**
+  - Kelola cart (tambah produk, naik/turun qty, hapus item, kosongkan cart)
+  - Apply / remove coupon
+  - Checkout dan membuat order (saat ini: **COD**)
+  - Lihat daftar order & detail order, serta cancel order (selama status masih `ordered`)
+  - Kelola wishlist (tambah/hapus/kosongkan, pindahkan item ke cart)
+- **Admin (login + `user.type === 'admin'`)**
+  - Dashboard ringkasan order (jumlah dan total nilai berdasarkan status)
+  - CRUD: Brand, Category, Product, Coupon, Slider
+  - Manajemen order: lihat order, set **delivered** atau **cancelled**
+  - Lihat & hapus pesan contact
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Alur Flow Sistem (High-Level)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### 1) Browse Produk
+1. Pengunjung membuka homepage (`/`) untuk melihat slider, kategori, dan rekomendasi produk.
+2. Pengunjung membuka halaman shop (`/shop`) untuk melihat katalog.
+3. Filter & sorting dilakukan via query param (contoh: `brand`, `category`, `sort`).
+4. Pengunjung membuka detail produk (`/shop/{product:slug}`) dan melihat related products.
 
-## Learning Laravel
+#### 2) Cart → Coupon → Checkout
+1. User menambahkan produk ke cart (`POST /user/cart/add`).
+2. User mengubah kuantitas (`PATCH /user/cart/increase` / `PATCH /user/cart/decrease`) atau menghapus item.
+3. User dapat memasukkan coupon (`POST /user/apply-coupon`) yang disimpan ke session sebagai:
+   - `coupon.code`, `coupon.type`, `coupon.value`, `coupon.discount`, `coupon.cart_total`, `coupon.final_total`
+4. Saat membuka halaman checkout (`GET /user/checkout`), sistem memastikan cart **ada dan tidak kosong**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### 3) Checkout → Order → Transaction
+1. User mengisi alamat pengiriman di halaman checkout.
+2. Saat submit (`POST /user/checkout`), sistem:
+   - Menyimpan/Update alamat (`Address::updateOrCreate`)
+   - Jika payment method selain COD dipilih, akan mengembalikan respon “Fitur belum tersedia”
+   - Untuk COD:
+     - Hitung subtotal dari item cart
+     - Ambil diskon dari session coupon (jika ada)
+     - Buat `Order` dengan status `ordered`
+     - Buat `OrderItem` untuk setiap item cart
+     - Buat `Transaction` dengan `mode = cod` dan `status = pending`
+     - Hapus item cart dan hapus cart
+     - Hapus session coupon (opsional)
+3. Setelah order dibuat, user diarahkan ke halaman konfirmasi order.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### 4) After Sales (User & Admin)
+- **User**
+  - Melihat daftar order (`/user/orders`)
+  - Melihat detail order (`/user/orders/{order}`)
+  - Cancel order selama status masih `ordered`
+- **Admin**
+  - Menandai order sebagai `delivered` atau `cancelled` (tidak bisa jika status bukan `ordered`)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Fitur Utama
 
-## Agentic Development
+### Fitur User (Frontend)
+- **Auth**: login/register bawaan Laravel UI
+- **Shop**
+  - Listing produk dengan filter Brand/Category
+  - Sorting: featured, best-selling (berdasarkan `quantity`), nama, harga efektif (sale/regular), terbaru/terlama
+- **Product detail** + related products
+- **Cart**
+  - Add item, increase/decrease qty, remove item, clear cart
+  - Perhitungan harga: `sale_price` fallback ke `regular_price`
+- **Coupon**
+  - Validasi expiry date dan minimum cart value
+  - Diskon fixed atau percent
+  - Disimpan ke session dan direkalkulasi saat isi cart berubah
+- **Checkout & Order**
+  - Simpan alamat (Address)
+  - Order + order items + transaction (mode COD)
+- **Wishlist**
+  - Tambah/hapus/kosongkan wishlist
+  - Pindahkan item dari wishlist ke cart
+- **Search produk (AJAX)**
+  - Endpoint `GET /search-product` mengembalikan JSON maksimal 5 produk berdasarkan nama
+- **Contact form**
+  - Simpan pesan contact ke database
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Fitur Admin (Backend)
+- **Dashboard ringkasan order** (total order & total nilai berdasarkan status)
+- **CRUD**:
+  - Brand (upload image + slug unik)
+  - Category (upload image + slug unik)
+  - Product (featured, stock status, harga regular/sale, image + gallery)
+  - Coupon (code unik, type percent/fixed, minimum cart value, expiry)
+  - Slider (image + link + text)
+- **Order management**
+  - Lihat daftar & detail order
+  - Aksi deliver/cancel
+- **Contact messages**
+  - Lihat dan hapus pesan
+
+## Struktur Data (Entitas Utama)
+- **User**: punya `address`, `orders`, `transactions`, `wishlists`
+- **Product**: terkait `brand`, `category`, punya `wishlists`
+- **Cart** → **CartItem**
+- **Order** → **OrderItem** → **Transaction**
+- **Coupon**: dipakai via session (bukan relation langsung)
+- **Contact**: pesan masuk dari halaman contact
+- **Slider**: banner homepage
+
+## Teknologi
+- **Backend**: PHP ^8.3, Laravel ^13, Laravel UI
+- **Frontend tooling**: Vite + Tailwind (devDependencies)
+- **Database default**: SQLite (lihat `.env.example`)
+- **Session / Cache**: database (lihat `.env.example`)
+
+## Cara Menjalankan (Local)
+
+### Prasyarat
+- PHP 8.3+
+- Composer
+- Node.js & npm
+
+### Setup cepat
+Project sudah menyediakan script composer `setup`:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer run setup
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Lalu jalankan mode dev:
 
-## Contributing
+```bash
+composer run dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+> Catatan: `.env.example` default memakai SQLite. Jika ingin MySQL, ubah `DB_CONNECTION` dan kredensialnya.
 
-## Code of Conduct
+## Kelebihan
+- **Flow user lengkap** untuk e-commerce basic: shop → cart → coupon → checkout → order.
+- **Admin panel** untuk mengelola katalog (brand/category/product) dan promo (coupon), serta order management.
+- **Slug unik otomatis** untuk produk/brand/category.
+- **Upload gambar** tersentral lewat storage `public` untuk produk, kategori, brand, slider.
+- **Perhitungan coupon** sudah mempertimbangkan expiry date + minimum cart value, dan direkalkulasi saat cart berubah.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Kekurangan / Catatan Teknis (Yang Bisa Ditingkatkan)
+- **Payment gateway belum diimplementasikan**: selain COD akan mengembalikan “Fitur belum tersedia”.
+- **Tipe kolom tanggal order**: pada migration `orders`, `delivered_date` dan `cancelled_date` bertipe `date` (tanpa jam). Jika butuh format `YYYY-MM-DD HH:MM:SS`, sebaiknya gunakan `dateTime`/`timestamp`.
+- **Wishlist `firstOrCreate`** saat ini hanya mengecek `product_id` (bukan kombinasi `user_id + product_id`), sehingga ada potensi wishlist “bentrok” antar user jika product yang sama.
+- **Relasi `User::cart()`** didefinisikan sebagai `belongsTo`, padahal pola data cart umumnya `hasOne`/`hasMany` dari user.
+- **Stock/best-selling**: sorting “best-selling” saat ini menggunakan `orderBy('quantity','asc')` (lebih mirip “stok paling sedikit”), bukan berdasarkan data penjualan.
+- **Shipping/VAT** masih hard-coded (0 / free shipping) dan belum ada kalkulasi ongkir/ppn sesungguhnya.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Lisensi
+Mengikuti lisensi default Laravel (MIT) kecuali dinyatakan lain pada aset pihak ketiga.
