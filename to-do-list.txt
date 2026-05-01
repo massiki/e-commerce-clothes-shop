@@ -1,0 +1,2 @@
+- change logic add and delete wishlist like toogle
+- change logic add and delete product like toogle
