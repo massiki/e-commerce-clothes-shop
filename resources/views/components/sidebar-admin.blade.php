@@ -26,10 +26,16 @@
         <x-sidebar-menu-admin icon="icon-shopping-cart" title="Products"
           isOpen="{{ request()->routeIs('admin.products.index') || request()->routeIs('admin.products.create') ? 'open active' : '' }}"
           isActive="{{ request()->routeIs('admin.products.index') || request()->routeIs('admin.products.create') ? 'active' : '' }}">
-          <x-sidebar-submenu-admin href="{{ route('admin.products.create') }}" title="Add Product"
-            isActive="{{ request()->routeIs('admin.products.create') ? 'active' : '' }}" />
-          <x-sidebar-submenu-admin href="{{ route('admin.products.index') }}" title="Products"
-            isActive="{{ request()->routeIs('admin.products.index') ? 'active' : '' }}" />
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.products.create'),
+              'title' => 'Add Product',
+              'isActive' => request()->routeIs('admin.products.create') ? 'active' : '',
+          ])
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.products.index'),
+              'title' => 'Products',
+              'isActive' => request()->routeIs('admin.products.index') ? 'active' : '',
+          ])
         </x-sidebar-menu-admin>
         {{-- end product --}}
 
@@ -37,10 +43,17 @@
         <x-sidebar-menu-admin icon="icon-layers" title="Brands"
           isOpen="{{ request()->routeIs('admin.brands.index') || request()->routeIs('admin.brands.create') ? 'open active' : '' }}"
           isActive="{{ request()->routeIs('admin.brands.index') || request()->routeIs('admin.brands.create') ? 'active' : '' }}">
-          <x-sidebar-submenu-admin href="{{ route('admin.brands.create') }}" title="New Brand"
-            isActive="{{ request()->routeIs('admin.brands.create') ? 'active' : '' }}" />
-          <x-sidebar-submenu-admin href="{{ route('admin.brands.index') }}" title="Brands"
-            isActive="{{ request()->routeIs('admin.brands.index') ? 'active' : '' }}" />
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.brands.create'),
+              'title' => 'New Brand',
+              'isActive' => request()->routeIs('admin.brands.create') ? 'active' : '',
+          ])
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.brands.index'),
+              'title' => 'Brands',
+              'isActive' => request()->routeIs('admin.brands.index') ? 'active' : '',
+          ])
+
         </x-sidebar-menu-admin>
         {{-- end brands --}}
 
@@ -48,10 +61,17 @@
         <x-sidebar-menu-admin icon="icon-layers" title="Category"
           isOpen="{{ request()->routeIs('admin.categories.index') || request()->routeIs('admin.categories.create') ? 'open active' : '' }}"
           isActive="{{ request()->routeIs('admin.categories.index') || request()->routeIs('admin.categories.create') ? 'active' : '' }}">
-          <x-sidebar-submenu-admin href="{{ route('admin.categories.create') }}" title="New Category"
-            isActive="{{ request()->routeIs('admin.categories.create') ? 'active' : '' }}" />
-          <x-sidebar-submenu-admin href="{{ route('admin.categories.index') }}" title="Categories"
-            isActive="{{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" />
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.categories.create'),
+              'title' => 'New Category',
+              'isActive' => request()->routeIs('admin.categories.create') ? 'active' : '',
+          ])
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.categories.index'),
+              'title' => 'Categories',
+              'isActive' => request()->routeIs('admin.categories.index') ? 'active' : '',
+          ])
+
         </x-sidebar-menu-admin>
         {{-- end category --}}
 
@@ -59,26 +79,49 @@
         <x-sidebar-menu-admin icon="icon-file-plus" title="Order"
           isOpen="{{ request()->routeIs('admin.orders.index') ? 'open active' : '' }}"
           isActive="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
-          <x-sidebar-submenu-admin href="{{ route('admin.orders.index') }}" title="Orders"
-            isActive="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" />
-          <x-sidebar-submenu-admin href="#" title="Order tracking" />
+          @include('components.sidebar-submenu-admin', [
+              'href' => route('admin.orders.index'),
+              'title' => 'Orders',
+              'isActive' => request()->routeIs('admin.orders.index') ? 'active' : '',
+          ])
+          @include('components.sidebar-submenu-admin', [
+              'href' => '#',
+              'title' => 'Order tracking',
+              'isActive' => '',
+          ])
         </x-sidebar-menu-admin>
         {{-- order --}}
 
         {{-- slider --}}
-        <x-sidebar-link-admin href="{{ route('admin.sliders.index') }}" icon="icon-image" title="Slider"
-          isActive="{{ request()->routeIs('admin.sliders.index') }}" />
+        @include('components.sidebar-link-admin', [
+            'href' => route('admin.sliders.index'),
+            'icon' => 'icon-image',
+            'title' => 'Slider',
+            'isActive' => request()->routeIs('admin.sliders.index'),
+        ])
 
         {{-- coupon --}}
-        <x-sidebar-link-admin href="{{ route('admin.coupons.index') }}" icon="icon-grid" title="Coupons"
-          isActive="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}" />
+        @include('components.sidebar-link-admin', [
+            'href' => route('admin.coupons.index'),
+            'icon' => 'icon-grid',
+            'title' => 'Coupons',
+            'isActive' => request()->routeIs('admin.coupons.index') ? 'active' : '',
+        ])
 
         {{-- setting --}}
-        <x-sidebar-link-admin href="#" icon="icon-user" title="User" />
+        @include('components.sidebar-link-admin', [
+            'href' => '#',
+            'icon' => 'icon-user',
+            'title' => 'User',
+        ])
 
         {{-- contact --}}
-        <x-sidebar-link-admin href="{{ route('admin.contacts.index') }}" icon="icon-mail" title="Contact"
-          isActive="{{ request()->routeIs('admin.contacts.index') ? 'active' : '' }}" />
+        @include('components.sidebar-link-admin', [
+            'href' => route('admin.contacts.index'),
+            'icon' => 'icon-mail',
+            'title' => 'Contact',
+            'isActive' => request()->routeIs('admin.contacts.index') ? 'active' : '',
+        ])
 
         {{-- logout --}}
         <li class="menu-item">
