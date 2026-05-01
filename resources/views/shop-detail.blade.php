@@ -405,7 +405,14 @@
                   </a>
                   <button
                     class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                    data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                    data-aside="cartDrawer" title="Add To Cart"
+                    onclick="event.preventDefault(); document.getElementById('cart-add-{{ $related->id }}').submit()">
+                    Add To Cart</button>
+                  <form action="{{ route('user.cart.add') }}" method="POST" id="cart-add-{{ $related->id }}"
+                    style="display: none;">
+                    @csrf
+                    <input type="text" name="productId" value="{{ $related->id }}">
+                  </form>
                 </div>
 
                 <div class="pc__info position-relative">
@@ -424,13 +431,26 @@
                     @endif
                   </div>
 
-                  <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                    title="Add To Wishlist">
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_heart" />
-                    </svg>
-                  </button>
+                  @php
+                    $firstWishlist = optional($related->wishlists)->first();
+                    $isThereWistlist =
+                        $firstWishlist && $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
+                  @endphp
+                  <form
+                    action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
+                    method="post">
+                    @if ($isThereWistlist)
+                      @method('DELETE')
+                    @endif
+                    @csrf
+                    <input type="hidden" name="productId" value="{{ $related->id }}">
+                    <button type="submit"
+                      class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                      title="Add To Wishlist">
+                      <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+                    </button>
+                  </form>
+
                 </div>
               </div>
             @endforeach
