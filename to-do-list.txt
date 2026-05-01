@@ -1,6 +1,5 @@
 - create about page
 - add tag new product in shop page
 - add produt to cart in product detail page
-- show 2 product cheap in home page
 - change custom pagination in shop page
 - replace link medsos size mobile

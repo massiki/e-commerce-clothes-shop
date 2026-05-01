@@ -15,13 +15,8 @@ class HomeController extends Controller
         $categories = Category::inRandomOrder()->take(8)->get();
         $featuredProducts = Product::where('featured', 1)->inRandomOrder()->take(8)->get();
         $saleProducts = Product::whereNotNull('sale_price')->inRandomOrder()->take(8)->get();
+        $cheapProducts = Product::where('regular_price', '<', 100000)->inRandomOrder()->take(2)->get();
         $sliders = Slider::latest('id')->get();
-        return view('home', compact('categories', 'featuredProducts', 'saleProducts', 'sliders'));
-    }
-
-    public function brands()
-    {
-        $brands = Brand::latest('id')->paginate(10);
-        return view('admin.brand', compact('brands'));
+        return view('home', compact('categories', 'featuredProducts', 'saleProducts', 'sliders', 'cheapProducts'));
     }
 }
