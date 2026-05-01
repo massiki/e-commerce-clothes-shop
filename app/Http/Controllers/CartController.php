@@ -320,4 +320,17 @@ class CartController extends Controller
         // dd($transaction);
         return view('order-confirmation', compact('transaction'));
     }
+
+    public function toggle(Request $request)
+    {
+        $user = Auth::user()->id;
+        $cart = Cart::firstOrCreate(['user_id' => $user]);
+        $cartItem = $cart->items()->where('product_id', $request->productId)->first();
+        if ($cartItem) {
+            $cartItem->delete();
+        } else {
+            $cart->items()->create(['product_id' => $request->productId, 'quantity' => 1]);
+        }
+        return redirect()->back();
+    }
 }
