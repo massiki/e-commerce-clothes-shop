@@ -61,4 +61,17 @@ class WishlistController extends Controller
         Wishlist::find($request->wishlistId)->delete();
         return redirect()->back();
     }
+
+    public function toggle(Request $request)
+    {
+        $user = Auth::user()->id;
+        $wishlist = Wishlist::where('user_id', $user)->first();
+        $wishlistItem = $wishlist->where('product_id', $request->productId)->first();
+        if ($wishlistItem) {
+            $wishlistItem->delete();
+        } else {
+            $wishlist->create(['user_id' => $user, 'product_id' => $request->productId]);
+        }
+        return redirect()->back();
+    }
 }

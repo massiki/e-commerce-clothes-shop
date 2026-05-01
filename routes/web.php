@@ -58,6 +58,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     Route::delete('/wishlist', [WishlistController::class, 'destroyAll'])->name('wishlist.destroy.all');
     Route::post('/wishlist/move', [WishlistController::class, 'move'])->name('wishlist.move');
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     Route::post('/apply-coupon', [CartController::class, 'apply'])->name('apply.coupon');
     Route::post('/remove-coupon', [CartController::class, 'remove'])->name('remove.coupon');
