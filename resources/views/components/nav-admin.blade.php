@@ -4,7 +4,7 @@
       <a href="#">
         <img class="" id="logo_header_mobile" alt="" src="{{ asset('images/logo-fikri.png') }}"
           data-light="{{ asset('images/logo-fikri.png') }}" data-dark="{{ asset('images/logo-fikri.png') }}"
-          data-width="154px" data-height="52px" data-retina="{{ asset('images/logo-fikri.png') }}">
+          data-width="154px" data-height="52px" data-retina="{{ asset('images/logo-fikri.png') }}" width="50px">
       </a>
       <div class="button-show-hide">
         <i class="icon-menu-left"></i>
