@@ -408,10 +408,12 @@
                     @endif
                   </div>
                   @php
-                    $isThereWistlist = optional($product->wishlists->first())->product_id == $product->id;
+                    $firstWishlist = optional($product->wishlists)->first();
+                    $isThereWistlist =
+                        $firstWishlist && $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
                   @endphp
                   <form
-                    action="{{ $isThereWistlist ? route('user.wishlist.destroy', $product->wishlists->first()->id) : route('user.wishlist') }}"
+                    action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
                     method="post">
                     @if ($isThereWistlist)
                       @method('DELETE')

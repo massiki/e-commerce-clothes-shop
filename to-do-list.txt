@@ -1,8 +1,7 @@
 - create about page
-- bug untuk tampilan wishlist dan add fitur wishlist in product detail page (wishlist bisa active ketika belum login maupun di account lain)
 - add tag new product in shop page
 - add produt to cart in product detail page
 - show 2 product cheap in home page
 - change logo and name store
 - change link medsos
-- replace component x wih include in admin (sedang dikerjakan)
+- change custom pagination in shop page

@@ -91,26 +91,35 @@
           </div>
           <form name="addtocart-form" method="post">
             <div class="product-single__addtocart">
-              <div class="qty-control position-relative">
-                <input type="number" name="quantity" value="1" min="1"
-                  class="qty-control__number text-center">
-                <div class="qty-control__reduce">-</div>
-                <div class="qty-control__increase">+</div>
-              </div><!-- .qty-control -->
               <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to
                 Cart</button>
             </div>
           </form>
           <div class="product-single__addtolinks">
-            <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16"
-                viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_heart" />
-              </svg><span>Add to Wishlist</span></a>
+            @php
+              $firstWishlist = optional($product->wishlists)->first();
+              $isThereWistlist =
+                  $firstWishlist && $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
+            @endphp
+            <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist "
+              onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
+              <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+              <span>{{ $isThereWistlist ? 'Added to Wishlist' : 'Add to Wishlist' }}</span>
+            </a>
+            <form
+              action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
+              method="post" id="wishlist-form-{{ $product->id }}">
+              @if ($isThereWistlist)
+                @method('DELETE')
+              @endif
+              @csrf
+              <input type="hidden" name="productId" value="{{ $product->id }}">
+            </form>
             <share-button class="share-button">
               <button class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_sharing" />
+                  <use href="#icon_sharing"></use>
                 </svg>
                 <span>Share</span>
               </button>
@@ -136,21 +145,20 @@
                 </div>
               </details>
             </share-button>
-            <script src="js/details-disclosure.html" defer="defer"></script>
-            <script src="js/share.html" defer="defer"></script>
           </div>
           <div class="product-single__meta-info">
             <div class="meta-item">
               <label>SKU:</label>
-              <span>N/A</span>
+              <span>{{ $product->SKU }}</span>
             </div>
             <div class="meta-item">
               <label>Categories:</label>
-              <span>Casual & Urban Wear, Jackets, Men</span>
+              <span>{{ $product->category->name }}</span>
             </div>
             <div class="meta-item">
               <label>Tags:</label>
-              <span>biker, black, bomber, leather</span>
+              {{-- <span>biker, black, bomber, leather</span> --}}
+              <span>-</span>
             </div>
           </div>
           </v>
