@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
@@ -29,6 +30,7 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{product:slug}', [ShopController::class, 'detail'])->name('shop-detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/contact', [ControllersContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ControllersContactController::class, 'store'])->name('contact.store');
 

@@ -1,2 +1,0 @@
-- create about page
-- change custom pagination in shop page (sedang dikerjakan)
