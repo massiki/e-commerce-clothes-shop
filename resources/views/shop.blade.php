@@ -380,16 +380,20 @@
                     {{-- end prev and next --}}
 
                   </div>
+                  @php
+                    $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+                    $cartItem = $cart ? $cart->items->where('product_id', $product->id)->first() : null;
+                  @endphp
                   <button
-                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                    data-aside="cartDrawer" title="Add To Cart"
+                    class="pc__atc anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside {{ $cartItem ? 'btn-danger text-black' : '' }}"
+                    data-aside="cartDrawer" title="{{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}"
                     onclick="event.preventDefault(); document.getElementById('cart-add-{{ $product->id }}').submit();">
-                    Add To Cart
+                    {{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}
                   </button>
-                  <form action="{{ route('user.cart.add') }}" method="POST" id="cart-add-{{ $product->id }}"
+                  <form action="{{ route('user.cart.toggle') }}" method="POST" id="cart-add-{{ $product->id }}"
                     style="display: none;">
                     @csrf
-                    <input type="text" name="productId" value="{{ $product->id }}">
+                    <input type="hidden" name="productId" value="{{ $product->id }}">
                   </form>
                 </div>
 

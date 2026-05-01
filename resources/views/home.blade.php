@@ -39,48 +39,6 @@
             </div>
           </div>
         @endforeach
-
-        {{-- <div class="swiper-slide">
-          <div class="overflow-hidden position-relative h-100">
-            <div class="slideshow-character position-absolute bottom-0 pos_right-center">
-              <img loading="lazy" src="assets/images/slideshow-character1.png" width="400" height="733"
-                alt="Woman Fashion 1"
-                class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto" />
-              <div class="character_markup">
-                <p class="text-uppercase font-sofia fw-bold animate animate_fade animate_rtl animate_delay-10">Summer
-                </p>
-              </div>
-            </div>
-            <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              <h6 class="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                New Arrivals</h6>
-              <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
-              <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
-              <a href="#"
-                class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
-                Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="overflow-hidden position-relative h-100">
-            <div class="slideshow-character position-absolute bottom-0 pos_right-center">
-              <img loading="lazy" src="assets/images/slideshow-character2.png" width="400" height="690"
-                alt="Woman Fashion 2"
-                class="slideshow-character__img animate animate_fade animate_rtl animate_delay-10 w-auto h-auto" />
-            </div>
-            <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
-              <h6 class="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                New Arrivals</h6>
-              <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
-              <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
-              <a href="#"
-                class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
-                Now</a>
-            </div>
-          </div>
-        </div> --}}
       </div>
       <div class="container">
         <div
@@ -268,10 +226,15 @@
 
                         <div
                           class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                          <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                            data-aside="cartDrawer" title="Add To Cart"
+                          @php
+                            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+                            $cartItem = $cart ? $cart->items->where('product_id', $product->id)->first() : null;
+                          @endphp
+                          <button
+                            class="btn-link btn-link_lg {{ $cartItem ? 'text-danger' : '' }} me-4 text-uppercase fw-medium js-add-cart js-open-aside"
+                            data-aside="cartDrawer" title="{{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}"
                             onclick="event.preventDefault(); document.getElementById('cart-add-sale-{{ $product->id }}').submit();">
-                            Add To Cart
+                            {{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}
                           </button>
                           <form action="{{ route('shop-detail', $product->slug) }}">
                             <button type="submit"
@@ -305,7 +268,7 @@
                               <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
                             </button>
                           </form>
-                          <form action="{{ route('user.cart.add') }}" method="POST"
+                          <form action="{{ route('user.cart.toggle') }}" method="POST"
                             id="cart-add-sale-{{ $product->id }}" style="display: none;">
                             @csrf
                             <input type="hidden" name="productId" value="{{ $product->id }}">
@@ -389,10 +352,15 @@
 
                   <div
                     class="anim_appear-bottom position-absolute bottom-0 start-0 d-none d-sm-flex align-items-center bg-body">
-                    <button class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer" title="Add To Cart"
+                    @php
+                      $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+                      $cartItem = $cart ? $cart->items->where('product_id', $product->id)->first() : null;
+                    @endphp
+                    <button
+                      class="btn-link btn-link_lg {{ $cartItem ? 'text-danger' : '' }} me-4 text-uppercase fw-medium js-add-cart js-open-aside"
+                      data-aside="cartDrawer" title="{{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}"
                       onclick="event.preventDefault(); document.getElementById('cart-add-{{ $product->id }}').submit();">
-                      Add To Cart
+                      {{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}
                     </button>
                     <form action="{{ route('shop-detail', $product->slug) }}">
                       <button type="submit" class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-quick-view"

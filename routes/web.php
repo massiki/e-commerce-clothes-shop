@@ -52,10 +52,13 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::patch('/cart/decrease', [CartController::class, 'decrease'])->name('cart.decrease');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
     Route::delete('/cart', [CartController::class, 'destroyAll'])->name('destroy.all');
+    Route::post('/cart/toggle', [CartController::class, 'toggle'])->name('cart.toggle');
+
     Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist');
     Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     Route::delete('/wishlist', [WishlistController::class, 'destroyAll'])->name('wishlist.destroy.all');
     Route::post('/wishlist/move', [WishlistController::class, 'move'])->name('wishlist.move');
+
     Route::post('/apply-coupon', [CartController::class, 'apply'])->name('apply.coupon');
     Route::post('/remove-coupon', [CartController::class, 'remove'])->name('remove.coupon');
 });

@@ -89,12 +89,17 @@
           <div class="product-single__short-desc">
             <p>{{ $product->short_description }}</p>
           </div>
-          <form action="{{ route('user.cart.add') }}" method="post">
+          @php
+            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+            $cartItem = $cart ? $cart->items->where('product_id', $product->id)->first() : null;
+          @endphp
+          <form action="{{ route('user.cart.toggle') }}" method="post">
             @csrf
             <div class="product-single__addtocart">
               <input type="hidden" name="productId" value="{{ $product->id }}">
-              <button type="submit" class="btn btn-primary btn-addtocart">
-                Add to Cart
+              <button type="submit"
+                class="btn {{ $cartItem ? 'btn-danger text-black' : 'btn-primary text-white' }} btn-addtocart">
+                {{ $cartItem ? 'Remove To Cart' : 'Add to Cart' }}
               </button>
             </div>
           </form>
@@ -403,15 +408,20 @@
                         height="400" alt="{{ $related->name }}" class="pc__img pc__img-second">
                     @endif
                   </a>
+                  @php
+                    $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+                    $cartItem = $cart ? $cart->items->where('product_id', $related->id)->first() : null;
+                  @endphp
                   <button
-                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                    data-aside="cartDrawer" title="Add To Cart"
+                    class="pc__atc btn {{ $cartItem ? 'btn-danger text-black' : '' }} anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                    data-aside="cartDrawer" title="{{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}"
                     onclick="event.preventDefault(); document.getElementById('cart-add-{{ $related->id }}').submit()">
-                    Add To Cart</button>
-                  <form action="{{ route('user.cart.add') }}" method="POST" id="cart-add-{{ $related->id }}"
+                    {{ $cartItem ? 'Remove To Cart' : 'Add To Cart' }}
+                  </button>
+                  <form action="{{ route('user.cart.toggle') }}" method="post" id="cart-add-{{ $related->id }}"
                     style="display: none;">
                     @csrf
-                    <input type="text" name="productId" value="{{ $related->id }}">
+                    <input type="hidden" name="productId" value="{{ $related->id }}">
                   </form>
                 </div>
 
