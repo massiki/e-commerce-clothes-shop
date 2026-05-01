@@ -1,2 +1,1 @@
-- change logic add and delete wishlist like toggle
-- fix ui home product cheap
+- fix ui home product cheap products

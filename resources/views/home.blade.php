@@ -250,22 +250,15 @@
                             </button>
                           </form>
                           @php
-                            $firstWishlist = optional($product->wishlists)->first();
-                            $isThereWistlist =
-                                $firstWishlist &&
-                                $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
+                            $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())->first();
+                            $wishlistItem = $wishlist ? $wishlist->where('product_id', $product->id)->first() : null;
                           @endphp
-                          <form
-                            action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
-                            method="post" style="margin: 0;">
-                            @if ($isThereWistlist)
-                              @method('DELETE')
-                            @endif
+                          <form action="{{ route('user.wishlist.toggle') }}" method="post" style="margin: 0;">
                             @csrf
                             <input type="hidden" name="productId" value="{{ $product->id }}">
                             <button type="submit" class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                              title="Add To Wishlist">
-                              <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+                              title="{{ $wishlistItem ? 'Remove To Wishlist' : 'Add To Wishlist' }}">
+                              <i class="fa fa-heart{{ $wishlistItem ? ' text-red' : '-o' }}"></i>
                             </button>
                           </form>
                           <form action="{{ route('user.cart.toggle') }}" method="POST"
@@ -277,8 +270,6 @@
                       </div>
                     </div>
                   @endforeach
-
-
                 </div><!-- /.swiper-wrapper -->
               </div><!-- /.swiper-container js-swiper-slider -->
             </div><!-- /.position-relative -->
@@ -373,27 +364,21 @@
                       </button>
                     </form>
                     @php
-                      $firstWishlist = optional($product->wishlists)->first();
-                      $isThereWistlist =
-                          $firstWishlist && $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
+                      $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())->first();
+                      $wishlistItem = $wishlist ? $wishlist->where('product_id', $product->id)->first() : null;
                     @endphp
-                    <form
-                      action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
-                      method="post">
-                      @if ($isThereWistlist)
-                        @method('DELETE')
-                      @endif
+                    <form action="{{ route('user.wishlist.toggle') }}" method="post">
                       @csrf
                       <input type="hidden" name="productId" value="{{ $product->id }}">
                       <button type="submit" class="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                        title="Add To Wishlist">
-                        <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+                        title="{{ $wishlistItem ? 'Remove To Wishlist' : 'Add To Wishlist' }}">
+                        <i class="fa fa-heart{{ $wishlistItem ? ' text-red' : '-o' }}"></i>
                       </button>
                     </form>
-                    <form action="{{ route('user.cart.add') }}" method="POST" id="cart-add-{{ $product->id }}"
+                    <form action="{{ route('user.cart.toggle') }}" method="POST" id="cart-add-{{ $product->id }}"
                       style="display: none;">
                       @csrf
-                      <input type="text" name="productId" value="{{ $product->id }}">
+                      <input type="hidden" name="productId" value="{{ $product->id }}">
                     </form>
                   </div>
                 </div>

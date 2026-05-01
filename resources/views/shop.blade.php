@@ -412,22 +412,16 @@
                     @endif
                   </div>
                   @php
-                    $firstWishlist = optional($product->wishlists)->first();
-                    $isThereWistlist =
-                        $firstWishlist && $firstWishlist->user_id == (auth()->check() ? auth()->user()->id : null);
+                    $wishlist = \App\Models\Wishlist::where('user_id', auth()->user()->id)->first();
+                    $wishlistItem = $wishlist ? $wishlist->where('product_id', $product->id)->first() : null;
                   @endphp
-                  <form
-                    action="{{ $isThereWistlist ? route('user.wishlist.destroy', $firstWishlist->id) : route('user.wishlist') }}"
-                    method="post">
-                    @if ($isThereWistlist)
-                      @method('DELETE')
-                    @endif
+                  <form action="{{ route('user.wishlist.toggle') }}" method="post">
                     @csrf
                     <input type="hidden" name="productId" value="{{ $product->id }}">
                     <button type="submit"
                       class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist">
-                      <i class="fa fa-heart{{ $isThereWistlist ? ' text-red' : '-o' }}"></i>
+                      title="{{ $wishlistItem ? 'Remove To Wishlist' : 'Add To Wishlist' }}">
+                      <i class="fa fa-heart{{ $wishlistItem ? ' text-red' : '-o' }}"></i>
                     </button>
                   </form>
                 </div>
